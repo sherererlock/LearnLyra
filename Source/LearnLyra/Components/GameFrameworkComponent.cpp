@@ -4,31 +4,16 @@
 #include "GameFrameworkComponent.h"
 
 // Sets default values for this component's properties
-UGameFrameworkComponent::UGameFrameworkComponent()
+UGameFrameworkComponent::UGameFrameworkComponent(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	bAutoActivate = false;
 }
 
-
-// Called when the game starts
-void UGameFrameworkComponent::BeginPlay()
+bool UGameFrameworkComponent::HasAuthority() const
 {
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UGameFrameworkComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	AActor* Owner = GetOwner();
+	check(Owner);
+	return Owner->HasAuthority();
 }
 

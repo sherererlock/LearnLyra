@@ -7,22 +7,22 @@
 #include "GameFrameworkComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, BlueprintType, HideCategories = (Trigger, PhysicsVolume))
 class LEARNLYRA_API UGameFrameworkComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UGameFrameworkComponent();
+	UGameFrameworkComponent(const FObjectInitializer& ObjectInitializer);
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+	template<class T>
+	T* GetGameInstance() const
+	{
+		AActor* Owener = GetOwner();
+		return Owener ? Owener->GetGameInstance<T>() : nullptr;
+	}
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	bool HasAuthority() const;
 		
 };
