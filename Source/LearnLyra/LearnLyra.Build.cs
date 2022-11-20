@@ -8,6 +8,13 @@ public class LearnLyra : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
+		PublicIncludePaths.AddRange(
+			new string[] {
+				"LearnLyra"
+			}
+		);
+
+
 		PublicDependencyModuleNames.AddRange(new string[] { 
 			"Core", 
 			"CoreUObject", 
