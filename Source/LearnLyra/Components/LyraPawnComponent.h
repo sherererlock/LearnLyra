@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PawnComponent.h"
+#include "Components/PawnComponent.h"
 #include "LyraPawnComponent.generated.h"
 
 UINTERFACE(BlueprintType)
