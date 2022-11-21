@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "LyraCharacter.generated.h"
 
+class ULyraPawnExtensionComponent;
+
 UCLASS()
 class LEARNLYRA_API ALyraCharacter : public ACharacter
 {
@@ -18,6 +20,12 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void UnPossessed() override;
+
+	void InitializeGameplayTags();
 
 public:	
 	// Called every frame
@@ -25,5 +33,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
+	ULyraPawnExtensionComponent* PawnExtComponent;
 
 };

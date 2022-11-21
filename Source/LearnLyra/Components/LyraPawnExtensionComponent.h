@@ -6,6 +6,7 @@
 #include "LyraPawnComponent.h"
 #include "LyraPawnExtensionComponent.generated.h"
 
+class ULyraPawnData;
 /**
  * 
  */
@@ -15,7 +16,16 @@ class LEARNLYRA_API ULyraPawnExtensionComponent : public ULyraPawnComponent
 	GENERATED_BODY()
 	
 public:
+
+	template <class T>
+	const T* GetPawnData() const { return Cast<T>(PawnData); }
+
+	void SetPawnData(const ULyraPawnData* InPawnData);
+
 	ULyraPawnExtensionComponent(const FObjectInitializer& ObjectInitializer);
+
+	UFUNCTION(BlueprintPure, Category = "Lyra|Pawn")
+	static ULyraPawnExtensionComponent* FindPawnExtensionComponent(const AActor* Actor) { return (Actor ? Actor->FindComponentByClass<ULyraPawnExtensionComponent>() : nullptr); }
 
 	// Should be called by the owning pawn when the pawn's controller changes.
 	void HandleControllerChanged();
@@ -37,6 +47,9 @@ protected:
 	FSimpleMulticastDelegate OnPawnReadyToInitialize;
 
 protected:
+	UPROPERTY(EditInstanceOnly, Category = "Lyra|Pawn")
+	const ULyraPawnData* PawnData;
+
 	// True when the pawn has everything needed for initialization.
 	int32 bPawnReadyToInitialize : 1;
 };

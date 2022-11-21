@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "LyraPawnComponent.h"
+#include "Input/LyraMappableConfigPair.h"
+
 #include "LyraHeroComponent.generated.h"
 
 class UInputComponent;
@@ -44,8 +46,8 @@ protected:
 
 protected:
 
-	//UPROPERTY(EditAnywhere)
-	//TArray<FMappableConfigPair> DefaultInputConfigs;
+	UPROPERTY(EditAnywhere)
+	TArray<FMappableConfigPair> DefaultInputConfigs;
 
 	// True when the pawn has fully finished initialization
 	bool bPawnHasInitialized;
