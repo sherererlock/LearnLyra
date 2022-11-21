@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "LyraInputComponent.h"
+#include "Player/LyraLocalPlayer.h"
 

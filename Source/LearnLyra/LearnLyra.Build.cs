@@ -24,8 +24,9 @@ public class LearnLyra : ModuleRules
 			"GameFeatures",
 			});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {
-
+		PrivateDependencyModuleNames.AddRange(new string[] { 
+			"CommonUI",
+			"CommonInput",
 			"InputCore",
 			"EnhancedInput",
 			});

@@ -3,13 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Logging/LogMacros.h"
 
-/**
- * 
- */
-class LEARNLYRA_API LyraLogChannels
-{
-public:
-	LyraLogChannels();
-	~LyraLogChannels();
-};
+LEARNLYRA_API DECLARE_LOG_CATEGORY_EXTERN(LogLyra, Log, All);
+LEARNLYRA_API DECLARE_LOG_CATEGORY_EXTERN(LogLyraExperience, Log, All);
+LEARNLYRA_API DECLARE_LOG_CATEGORY_EXTERN(LogLyraAbilitySystem, Log, All);
+LEARNLYRA_API DECLARE_LOG_CATEGORY_EXTERN(LogLyraTeams, Log, All);
+
+LEARNLYRA_API FString GetClientServerContextString(UObject* ContextObject = nullptr);
