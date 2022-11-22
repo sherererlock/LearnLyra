@@ -11,6 +11,7 @@ ULyraPawnExtensionComponent::ULyraPawnExtensionComponent(const FObjectInitialize
 
 	PawnData = nullptr;
 	bPawnReadyToInitialize = false;
+	PawnData = DefaultPawnData;
 }
 
 void ULyraPawnExtensionComponent::HandleControllerChanged()

@@ -7,6 +7,7 @@
 #include "LyraCharacter.generated.h"
 
 class ULyraPawnExtensionComponent;
+class UCameraComponent;
 
 UCLASS()
 class LEARNLYRA_API ALyraCharacter : public ACharacter
@@ -15,7 +16,7 @@ class LEARNLYRA_API ALyraCharacter : public ACharacter
 
 public:
 	// Sets default values for this character's properties
-	ALyraCharacter();
+	ALyraCharacter(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned
@@ -38,4 +39,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
 	ULyraPawnExtensionComponent* PawnExtComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* CameraComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", meta = (AllowPrivateAccess = "true"))
+	class USpringArmComponent* CameraBoom;
 };

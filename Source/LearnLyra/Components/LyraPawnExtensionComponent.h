@@ -47,8 +47,12 @@ protected:
 	FSimpleMulticastDelegate OnPawnReadyToInitialize;
 
 protected:
+
 	UPROPERTY(EditInstanceOnly, Category = "Lyra|Pawn")
 	const ULyraPawnData* PawnData;
+
+	UPROPERTY(EditDefaultsOnly, Category=Gameplay)
+	TObjectPtr<const ULyraPawnData> DefaultPawnData;
 
 	// True when the pawn has everything needed for initialization.
 	int32 bPawnReadyToInitialize : 1;

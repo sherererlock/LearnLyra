@@ -13,7 +13,7 @@ struct FInputActionValue;
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, Meta = (BlueprintSpawnableComponent))
 class LEARNLYRA_API ULyraHeroComponent : public ULyraPawnComponent
 {
 	GENERATED_BODY()
