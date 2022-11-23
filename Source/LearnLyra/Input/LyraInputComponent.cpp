@@ -14,7 +14,7 @@ void ULyraInputComponent::AddInputMappings(const ULyraInputConfig* InputConfig, 
 	check(InputConfig);
 	check(InputSubsystem);
 
-	ULyraLocalPlayer* LocalPlayer = InputSubsystem->GetLocalPlayer<ULyraLocalPlayer>();
+	ULocalPlayer* LocalPlayer = InputSubsystem->GetLocalPlayer<ULocalPlayer>();
 	check(LocalPlayer);
 
 	// Add any registered input mappings from the settings!
