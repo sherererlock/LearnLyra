@@ -3,6 +3,7 @@
 
 #include "LyraAssetManager.h"
 #include "LyraGame/LyraLogChannels.h"
+#include "LyraGame/LyraGameplayTags.h"
 
 ULyraAssetManager::ULyraAssetManager()
 {
@@ -61,4 +62,16 @@ void ULyraAssetManager::AddLoadedAsset(const UObject* Asset)
 		FScopeLock LoadedAssetsLock(&LoadedAssetsCritical);
 		LoadedAssets.Add(Asset);
 	}
+}
+
+void ULyraAssetManager::StartInitialLoading()
+{
+	Super::StartInitialLoading();
+
+	InitializeAbilitySystem();
+}
+
+void ULyraAssetManager::InitializeAbilitySystem()
+{
+	FLyraGameplayTags::InitializeNativeTags();
 }

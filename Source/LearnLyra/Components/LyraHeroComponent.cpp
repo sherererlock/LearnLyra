@@ -220,12 +220,12 @@ void ULyraHeroComponent::Input_LookMouse(const FInputActionValue& InputActionVal
 
 	if (Value.X != 0.0f)
 	{
-		Pawn->AddControllerYawInput(Value.X);
+		Pawn->AddControllerYawInput(Value.X * 50.0f * GetWorld()->GetDeltaSeconds());
 	}
 
 	if (Value.Y != 0.0f)
 	{
-		Pawn->AddControllerPitchInput(Value.Y);
+		Pawn->AddControllerPitchInput(Value.Y * 50.0f * GetWorld()->GetDeltaSeconds());
 	}
 }
 

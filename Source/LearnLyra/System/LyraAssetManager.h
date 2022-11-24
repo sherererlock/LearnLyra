@@ -37,12 +37,18 @@ protected:
 	UPROPERTY()
 	TSoftObjectPtr<ULyraPawnData> DefaultPawnData;
 
+
+	virtual void StartInitialLoading() override;
+
 private:
 	UPROPERTY()
 	TSet<const UObject*> LoadedAssets;
 
 	// Used for a scope lock when modifying the list of load assets.
 	FCriticalSection LoadedAssetsCritical;
+
+private:
+	void InitializeAbilitySystem();
 };
 
 
