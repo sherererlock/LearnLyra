@@ -14,4 +14,19 @@ class LEARNLYRA_API ULyraLocalPlayer : public ULocalPlayer
 {
 	GENERATED_BODY()
 	
+public:
+
+	ULyraLocalPlayer();
+
+	// UObject
+	virtual void PostInitProperties() override;
+	// UObject
+
+	// UPlayer
+	virtual void SwitchController(class APlayerController* PC) override;
+
+	// ULocalPlayer
+	virtual bool SpawnPlayActor(const FString& URL, FString& OutError, UWorld* InWorld) override;
+	virtual void InitOnlineSession() override;
+
 };

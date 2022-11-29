@@ -60,7 +60,7 @@ public:
 
 	/** Get an input config with a certain name. If the config doesn't exist then nullptr will be returned. */
 	UFUNCTION(BlueprintCallable)
-		const UPlayerMappableInputConfig* GetInputConfigByName(FName ConfigName) const;
+	const UPlayerMappableInputConfig* GetInputConfigByName(FName ConfigName) const;
 
 	/** Get all currently registered input configs */
 	const TArray<FLoadedMappableConfigPair>& GetAllRegisteredInputConfigs() const { return RegisteredInputConfigs; }
