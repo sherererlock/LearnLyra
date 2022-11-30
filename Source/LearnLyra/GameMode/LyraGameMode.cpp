@@ -30,12 +30,12 @@ UClass* ALyraGameMode::GetDefaultPawnClassForController_Implementation(AControll
 
 APawn* ALyraGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform)
 {
-	return nullptr;
+	return Super::SpawnDefaultPawnAtTransform_Implementation(NewPlayer, SpawnTransform);
 }
 
 bool ALyraGameMode::ShouldSpawnAtStartSpot(AController* Player)
 {
-	return false;
+	return true;
 }
 
 void ALyraGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
@@ -55,7 +55,7 @@ void ALyraGameMode::FinishRestartPlayer(AController* NewPlayer, const FRotator& 
 
 bool ALyraGameMode::PlayerCanRestart_Implementation(APlayerController* Player)
 {
-	return false;
+	return true;
 }
 
 void ALyraGameMode::InitGameState()

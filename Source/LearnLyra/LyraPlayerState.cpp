@@ -15,7 +15,7 @@ void ALyraPlayerState::PreInitializeComponents()
 
 void ALyraPlayerState::PostInitializeComponents()
 {
-	Super::InitializeComponents();
+	Super::PostInitializeComponents();
 }
 
 void ALyraPlayerState::BeginPlay()
