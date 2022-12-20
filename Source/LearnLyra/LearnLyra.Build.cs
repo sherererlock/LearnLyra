@@ -22,6 +22,8 @@ public class LearnLyra : ModuleRules
 			"GameplayTags",
 			"ModularGameplay",
 			"GameFeatures",
+			"GameplayTasks",
+			"GameplayAbilities",
 			});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { 

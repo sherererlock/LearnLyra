@@ -2,10 +2,12 @@
 
 
 #include "LyraPlayerState.h"
+#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
 
 ALyraPlayerState::ALyraPlayerState(const FObjectInitializer& ObjectInitilize)
 	: Super(ObjectInitilize)
 {
+	AbilitySystemComponent = ObjectInitilize.CreateDefaultSubobject<ULyraAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
 }
 
 void ALyraPlayerState::PreInitializeComponents()
@@ -16,6 +18,9 @@ void ALyraPlayerState::PreInitializeComponents()
 void ALyraPlayerState::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
+
+	check(AbilitySystemComponent);
+	AbilitySystemComponent->InitAbilityActorInfo(this, GetPawn());
 }
 
 void ALyraPlayerState::BeginPlay()
@@ -51,4 +56,9 @@ void ALyraPlayerState::OnReactivated()
 void ALyraPlayerState::CopyProperties(APlayerState* PlayerState)
 {
 	Super::CopyProperties(PlayerState);
+}
+
+UAbilitySystemComponent* ALyraPlayerState::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }

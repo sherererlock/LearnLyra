@@ -46,3 +46,21 @@ void ULyraInputComponent::BindNativeAction(const ULyraInputConfig* InputConfig, 
 		BindAction(IA, TriggerEvent, Object, Func);
 	}
 }
+
+template<class UserClass, typename PressedFuncType, typename ReleasedFuncType>
+void ULyraInputComponent::BindAbilityActions(const ULyraInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, TArray<uint32>& BindHandles)
+{
+	check(InputConfig);
+	
+	for (const FLyraInputAction& action : InputConfig->AbilityInputActions)
+	{
+		if (action.InputAction && action.InputTag.IsValid())
+		{
+			if (PressedFunc)
+				BindHandles.Add(BindAction(action.InputAction, ETriggerEvent::Triggered, Object, PressedFunc, action.InputTag).GetHandle());
+
+			if (ReleasedFunc)
+				BindHandles.Add(BindAction(action.InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, action.InputTag).GetHandle());
+		}
+	}
+}

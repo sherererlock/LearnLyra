@@ -14,11 +14,16 @@
 
 #### UEnhancedInputComponent
 
-绑定到Pawn的输入组件，主要负责将UPlayerMappableInputConfig绑定到Enhanced Input Sub System上
+绑定到Pawn的输入组件，主要负责将UPlayerMappableInputConfig绑定到EnhancedInputSubSystem上
 
 #### UEnhancedInputLocalPlayerSubsystem
 
 将输入-事件的映射注册到系统
+
+#### 总结
+
+- PMI中存储了IMC，IMC中有操作到IA的映射，UEnhancedInputComponent会通过PMI把IMC绑定到EnhancedInputSubSystem上
+- LyraHero Component中定义了一系列处理输入的函数，并在条件成熟时将这些函数与IA绑定起来，这样整个流程就通了
 
 #### Asset Manger
 

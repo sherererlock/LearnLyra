@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "LyraPlayerController.generated.h"
 
+class ULyraAbilitySystemComponent;
 /**
  * 
  */
@@ -33,6 +34,12 @@ public:
 	virtual void ReceivedPlayer() override;
 	virtual void PlayerTick(float DeltaTime) override;
 	// APlayerController
+
+	UFUNCTION(BlueprintCallable, Category = "Lyra|PlayerController")
+	ALyraPlayerState* GetLyraPlayerState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Lyra|PlayerController")
+	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const;
 
 protected:
 	// AController

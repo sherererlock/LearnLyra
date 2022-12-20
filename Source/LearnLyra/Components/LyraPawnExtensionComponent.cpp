@@ -69,6 +69,16 @@ bool ULyraPawnExtensionComponent::CheckPawnReadyToInitialize()
 	return false;
 }
 
+void ULyraPawnExtensionComponent::InitAbilitySystemComponent(ULyraAbilitySystemComponent* InASC, AActor* InOwnerActor)
+{
+	if (InASC == AbilitySystemComponent)
+		return;
+
+	AbilitySystemComponent = InASC;
+	APawn* Pawn = GetPawnChecked<APawn>();
+	AbilitySystemComponent->InitAbilityActorInfo(InOwnerActor, Pawn);
+}
+
 void ULyraPawnExtensionComponent::OnPawnReadyToInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate)
 {
 	if (!OnPawnReadyToInitialize.IsBoundToObject(Delegate.GetUObject()))

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "LyraPawnComponent.h"
+#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
 #include "LyraPawnExtensionComponent.generated.h"
 
 class ULyraPawnData;
@@ -39,6 +40,12 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Lyra|Pawn", Meta = (ExpandBoolAsExecs = "ReturnValue"))
 	bool IsPawnReadyToInitialize() const { return bPawnReadyToInitialize; }
 
+
+	UFUNCTION(BlueprintPure, Category = "Lyra|Pawn")
+	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const { return AbilitySystemComponent; }
+
+	void InitAbilitySystemComponent(ULyraAbilitySystemComponent* InASC, AActor* InOwnerActor);
+
 	void OnPawnReadyToInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate);
 
 protected:
@@ -53,6 +60,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category=Gameplay)
 	TObjectPtr<const ULyraPawnData> DefaultPawnData;
+
+	UPROPERTY()
+	ULyraAbilitySystemComponent* AbilitySystemComponent;
 
 	// True when the pawn has everything needed for initialization.
 	int32 bPawnReadyToInitialize : 1;

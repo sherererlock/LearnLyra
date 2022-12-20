@@ -2,6 +2,8 @@
 
 
 #include "Player/LyraPlayerController.h"
+#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "LyraPlayerState.h"
 
 ALyraPlayerController::ALyraPlayerController(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer)
@@ -49,6 +51,17 @@ void ALyraPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 }
 
+ALyraPlayerState* ALyraPlayerController::GetLyraPlayerState() const
+{
+	return CastChecked<ALyraPlayerState>(PlayerState, ECastCheckedType::NullAllowed);
+}
+
+ULyraAbilitySystemComponent* ALyraPlayerController::GetLyraAbilitySystemComponent() const
+{
+	const ALyraPlayerState* LyraPS = GetLyraPlayerState();
+	return (LyraPS ? LyraPS->GetLyraAbilitySystemComponent() : nullptr);
+}
+
 void ALyraPlayerController::InitPlayerState()
 {
 	Super::InitPlayerState();
@@ -76,5 +89,10 @@ void ALyraPlayerController::PreProcessInput(const float DeltaTime, const bool bG
 
 void ALyraPlayerController::PostProcessInput(const float DeltaTime, const bool bGamePaused)
 {
+	if (ULyraAbilitySystemComponent* LyraASC = GetLyraAbilitySystemComponent())
+	{
+		LyraASC->ProcessAbilityInput(DeltaTime, bGamePaused);
+	}
+
 	Super::PostProcessInput(DeltaTime, bGamePaused);
 }

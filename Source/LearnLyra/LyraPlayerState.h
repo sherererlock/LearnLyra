@@ -4,13 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+#include "AbilitySystemInterface.h"
 #include "LyraPlayerState.generated.h"
 
+class UAbilitySystemComponent;
+class ULyraAbilitySystemComponent;
 /**
  * 
  */
 UCLASS()
-class LEARNLYRA_API ALyraPlayerState : public APlayerState
+class LEARNLYRA_API ALyraPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -30,10 +33,20 @@ public:
 	virtual void OnDeactivated() override;
 	virtual void OnReactivated() override;
 
-
+	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const { return AbilitySystemComponent; }
 protected:
 	// APlayerState
 	virtual void CopyProperties(APlayerState* PlayerState);
 	// APlayerState
+
+
+	// Í¨¹ý IAbilitySystemInterface ¼Ì³Ð
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, Category = "Lyra|PlayerState")
+	ULyraAbilitySystemComponent* AbilitySystemComponent;
 
 };

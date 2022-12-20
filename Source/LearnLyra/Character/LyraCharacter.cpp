@@ -85,3 +85,8 @@ void ALyraCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PawnExtComponent->SetupPlayerInputComponent();
 }
 
+UAbilitySystemComponent* ALyraCharacter::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}
+

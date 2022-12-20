@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+
 #include "LyraPawnData.generated.h"
 
 class ULyraInputConfig;
-
+class ULyraAbilitySet;
 /**
  * 
  */
@@ -26,4 +27,7 @@ public:
 	// Input configuration used by player controlled pawns to create input mappings and bind input actions.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Lyra|Input")
 	ULyraInputConfig* InputConfig;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Lyra|Ability")
+	TArray<ULyraAbilitySet*> AbilitySet;
 };

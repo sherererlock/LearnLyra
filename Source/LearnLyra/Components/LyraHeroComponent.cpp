@@ -11,6 +11,8 @@
 #include "LyraGame/LyraGameplayTags.h"
 #include "Input/LyraInputComponent.h"
 #include "Settings/LyraSettingsLocal.h"
+#include "LyraPlayerState.h"
+#include "AbilitySystem/Abilities/LyraAbilitySet.h"
 
 namespace LyraHero
 {
@@ -106,10 +108,21 @@ void ULyraHeroComponent::OnPawnReadyToInitialize()
 
 	const ULyraPawnData* PawnData = nullptr;
 
-	//if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
-	//{
-	//	PawnData = PawnExtComp->GetPawnData<ULyraPawnData>();
-	//}
+	ALyraPlayerState* LyraPS = GetPlayerState<ALyraPlayerState>();
+	check(LyraPS);
+
+	if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+	{
+		PawnData = PawnExtComp->GetPawnData<ULyraPawnData>();
+
+		PawnExtComp->InitAbilitySystemComponent(LyraPS->GetLyraAbilitySystemComponent(), LyraPS);
+
+		{
+			const TArray<ULyraAbilitySet*>& ASet = PawnData->AbilitySet;
+			for (int i = 0; i < ASet.Num(); i++)
+				ASet[i]->GiveToAbilitySystem(LyraPS->GetLyraAbilitySystemComponent(), nullptr);
+		}
+	}
 
 	if (APlayerController* PC = GetController<APlayerController>())
 	{
@@ -171,13 +184,41 @@ void ULyraHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompo
 				}
 
 				TArray<uint32> BindHandles;
-				//LyraIC->BindAbilityActions(InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, /*out*/ BindHandles);
+				LyraIC->BindAbilityActions(InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, /*out*/ BindHandles);
 
 				LyraIC->BindNativeAction(InputConfig, GameplayTags.InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move, /*bLogIfNotFound=*/ false);
 				LyraIC->BindNativeAction(InputConfig, GameplayTags.InputTag_Look_Mouse, ETriggerEvent::Triggered, this, &ThisClass::Input_LookMouse, /*bLogIfNotFound=*/ false);
 				LyraIC->BindNativeAction(InputConfig, GameplayTags.InputTag_Look_Stick, ETriggerEvent::Triggered, this, &ThisClass::Input_LookStick, /*bLogIfNotFound=*/ false);
 				LyraIC->BindNativeAction(InputConfig, GameplayTags.InputTag_Crouch, ETriggerEvent::Triggered, this, &ThisClass::Input_Crouch, /*bLogIfNotFound=*/ false);
 				LyraIC->BindNativeAction(InputConfig, GameplayTags.InputTag_AutoRun, ETriggerEvent::Triggered, this, &ThisClass::Input_AutoRun, /*bLogIfNotFound=*/ false);
+			}
+		}
+	}
+}
+
+void ULyraHeroComponent::Input_AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	if (const APawn* Pawn = GetPawn<APawn>())
+	{
+		if (const ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+		{
+			if (ULyraAbilitySystemComponent* LyraASC = PawnExtComp->GetLyraAbilitySystemComponent())
+			{
+				LyraASC->AbilityInputTagPressed(InputTag);
+			}
+		}
+	}
+}
+
+void ULyraHeroComponent::Input_AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	if (const APawn* Pawn = GetPawn<APawn>())
+	{
+		if (const ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+		{
+			if (ULyraAbilitySystemComponent* LyraASC = PawnExtComp->GetLyraAbilitySystemComponent())
+			{
+				LyraASC->AbilityInputTagReleased(InputTag);
 			}
 		}
 	}

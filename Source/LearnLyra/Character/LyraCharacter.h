@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "LyraCharacter.generated.h"
 
 class ULyraPawnExtensionComponent;
 class UCameraComponent;
 
 UCLASS()
-class LEARNLYRA_API ALyraCharacter : public ACharacter
+class LEARNLYRA_API ALyraCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -44,4 +45,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
+
+	// Í¨¹ý IAbilitySystemInterface ¼Ì³Ð
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 };
