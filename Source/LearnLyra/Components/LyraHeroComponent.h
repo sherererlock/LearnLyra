@@ -10,6 +10,7 @@
 
 class UInputComponent;
 struct FInputActionValue;
+class ULyraInputConfig;
 /**
  * 
  */
@@ -26,6 +27,9 @@ public:
 
 	/** True if this player has sent the BindInputsNow event and is prepared for bindings */
 	bool IsReadyToBindInputs() const;
+
+	void AddAdditionalInputConfig(const ULyraInputConfig* InputConfig);
+	void RemoveAdditionalInputConfig(const ULyraInputConfig* InputConfig);
 
 protected:
 	virtual void OnRegister() override;
@@ -57,4 +61,7 @@ protected:
 
 	// True when player input bindings have been applyed, will never be true for non-players
 	bool bReadyToBindInputs;
+
+public:
+	static const FName NAME_BindInputsNow;
 };

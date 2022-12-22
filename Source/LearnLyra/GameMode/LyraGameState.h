@@ -6,6 +6,7 @@
 #include "GameFramework/GameStateBase.h"
 #include "LyraGameState.generated.h"
 
+class ULyraExperienceManagerComponent;
 /**
  * 
  */
@@ -31,4 +32,8 @@ public:
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;
+
+private:
+	UPROPERTY()
+	ULyraExperienceManagerComponent* ExperienceManagerComponent;
 };

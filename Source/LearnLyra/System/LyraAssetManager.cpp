@@ -5,6 +5,8 @@
 #include "LyraGame/LyraLogChannels.h"
 #include "LyraGame/LyraGameplayTags.h"
 
+const FName FLyraBundles::Equipped("Equipped");
+
 ULyraAssetManager::ULyraAssetManager()
 {
 	DefaultPawnData = nullptr;

@@ -14,4 +14,22 @@
    		);
    ```
 
-   
+
+跳跃技能不触发
+
+- 根据SpecHandle找不到AbilitySpec
+  - 引擎是Release的，一部分断点信息不可信
+
+跳跃技能没有调用EndAbility导致只能触发一次
+
+- WaitInputRelease节点的OnRelease方法没有调用
+  - 需要重写AbilitySpecInputReleased，以便在其中保证WaitInputRelease得到调用
+
+子类的对象没法被找到，设置不到变量上去
+
+- 没有继承为子类对象，而是创建了DataAsset
+- 无法找到Plugins中的对象
+
+Experience数据文件不加载
+
+- 需要添加到AssetManager的PrimaryAssetType中

@@ -9,6 +9,8 @@
 
 class UAbilitySystemComponent;
 class ULyraAbilitySystemComponent;
+class ULyraExperienceDefinition;
+class ULyraPawnData;
 /**
  * 
  */
@@ -34,14 +36,25 @@ public:
 	virtual void OnReactivated() override;
 
 	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const { return AbilitySystemComponent; }
+
+	template <class T>
+	const T* GetPawnData() const { return Cast<T>(PawnData); }
+
+	void SetPawnData(const ULyraPawnData* InPawnData);
+
 protected:
 	// APlayerState
 	virtual void CopyProperties(APlayerState* PlayerState);
 	// APlayerState
 
-
 	// Í¨¹ý IAbilitySystemInterface ¼Ì³Ð
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UFUNCTION()
+	void OnRep_PawnData();
+
+private:
+	void OnExperienceLoaded(const ULyraExperienceDefinition* CurrentExperience);
 
 
 protected:
@@ -49,4 +62,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Lyra|PlayerState")
 	ULyraAbilitySystemComponent* AbilitySystemComponent;
 
+	UPROPERTY(ReplicatedUsing = OnRep_PawnData)
+	const ULyraPawnData* PawnData;
 };

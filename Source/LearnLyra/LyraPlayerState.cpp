@@ -3,6 +3,10 @@
 
 #include "LyraPlayerState.h"
 #include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "GameMode/LyraExperienceManagerComponent.h"
+#include "GameMode/LyraExperienceDefinition.h"
+#include "Character/LyraPawnData.h"
+#include "Net/UnrealNetwork.h"
 
 ALyraPlayerState::ALyraPlayerState(const FObjectInitializer& ObjectInitilize)
 	: Super(ObjectInitilize)
@@ -21,6 +25,17 @@ void ALyraPlayerState::PostInitializeComponents()
 
 	check(AbilitySystemComponent);
 	AbilitySystemComponent->InitAbilityActorInfo(this, GetPawn());
+
+	if (GetNetMode() != NM_Client)
+	{
+		AGameStateBase* GameState = GetWorld()->GetGameState();
+		check(GameState);
+
+		ULyraExperienceManagerComponent* Com = GameState->FindComponentByClass<ULyraExperienceManagerComponent>();
+		check(Com);
+
+		Com->CallOrRegister_OnExperienceLoaded(FOnLyraExperienceLoaded::FDelegate::CreateUObject(this, &ThisClass::OnExperienceLoaded));
+	}
 }
 
 void ALyraPlayerState::BeginPlay()
@@ -53,6 +68,18 @@ void ALyraPlayerState::OnReactivated()
 	Super::OnReactivated();
 }
 
+void ALyraPlayerState::SetPawnData(const ULyraPawnData* InPawnData)
+{
+	check(InPawnData);
+
+	if (GetLocalRole() != ROLE_Authority)
+	{
+		return;
+	}
+
+	PawnData = InPawnData;
+}
+
 void ALyraPlayerState::CopyProperties(APlayerState* PlayerState)
 {
 	Super::CopyProperties(PlayerState);
@@ -61,4 +88,26 @@ void ALyraPlayerState::CopyProperties(APlayerState* PlayerState)
 UAbilitySystemComponent* ALyraPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void ALyraPlayerState::OnRep_PawnData()
+{
+}
+
+void ALyraPlayerState::OnExperienceLoaded(const ULyraExperienceDefinition* CurrentExperience)
+{
+	if (CurrentExperience)
+	{
+		SetPawnData(CurrentExperience->DefaultPawnData);
+	}
+}
+
+void ALyraPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	FDoRepLifetimeParams SharedParams;
+	SharedParams.bIsPushBased = true;
+
+	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, PawnData, SharedParams);
 }

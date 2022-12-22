@@ -31,7 +31,7 @@ bool ULyraPawnExtensionComponent::CheckPawnReadyToInitialize()
 		return true;
 	}
 
-	PawnData = DefaultPawnData;
+	//PawnData = DefaultPawnData;
 	// Pawn data is required.
 	if (!PawnData)
 	{

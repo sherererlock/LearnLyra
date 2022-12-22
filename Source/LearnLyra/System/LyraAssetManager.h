@@ -10,6 +10,11 @@
 
 class ULyraPawnData;
 
+struct FLyraBundles
+{
+	static const FName Equipped;
+};
+
 /**
  * 
  */

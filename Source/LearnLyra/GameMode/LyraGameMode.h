@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "LyraGameMode.generated.h"
 
+class ULyraExperienceDefinition;
 /**
  * 
  */
@@ -18,6 +19,8 @@ public:
 
 	ALyraGameMode(const FObjectInitializer& ObjectInitialize = FObjectInitializer::Get());
 
+	const ULyraPawnData* GetPawnDataForController(const AController* InController) const;
+
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrotMessage) override;
 
 	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
@@ -29,4 +32,12 @@ public:
 	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
 	virtual bool PlayerCanRestart_Implementation(APlayerController* Player) override;
 	virtual void InitGameState() override;
+
+protected:
+	void OnExperienceLoaded(const ULyraExperienceDefinition* CurrentExperience);
+	bool IsExperienceLoaded() const;
+
+	void OnMatchAssignmentGiven(FPrimaryAssetId ExperienceId, const FString& ExperienceIdSource);
+
+	void HandleMatchAssignmentIfNotExpectingOne();
 };

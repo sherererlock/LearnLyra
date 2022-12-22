@@ -13,12 +13,15 @@
 #include "Settings/LyraSettingsLocal.h"
 #include "LyraPlayerState.h"
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
+#include "Components/GameFrameworkComponentManager.h"
 
 namespace LyraHero
 {
 	static const float LookYawRate = 300.0f;
 	static const float LookPitchRate = 165.0f;
 };
+
+const FName ULyraHeroComponent::NAME_BindInputsNow("BindInputsNow");
 
 ULyraHeroComponent::ULyraHeroComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -29,12 +32,44 @@ ULyraHeroComponent::ULyraHeroComponent(const FObjectInitializer& ObjectInitializ
 
 bool ULyraHeroComponent::HasPawnInitialized() const
 {
-	return false;
+	return bPawnHasInitialized;
 }
 
 bool ULyraHeroComponent::IsReadyToBindInputs() const
 {
-	return false;
+	return bReadyToBindInputs;
+}
+
+void ULyraHeroComponent::AddAdditionalInputConfig(const ULyraInputConfig* InputConfig)
+{
+	TArray<uint32> BindHandles;
+
+	const APawn* Pawn = GetPawn<APawn>();
+	if (!Pawn)
+	{
+		return;
+	}
+
+	ULyraInputComponent* LyraIC = Pawn->FindComponentByClass<ULyraInputComponent>();
+	check(LyraIC);
+
+	const APlayerController* PC = GetController<APlayerController>();
+	check(PC);
+
+	const ULocalPlayer* LP = PC->GetLocalPlayer();
+	check(LP);
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	check(Subsystem);
+
+	if (const ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+	{
+		LyraIC->BindAbilityActions(InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, /*out*/ BindHandles);
+	}
+}
+
+void ULyraHeroComponent::RemoveAdditionalInputConfig(const ULyraInputConfig* InputConfig)
+{
 }
 
 void ULyraHeroComponent::OnRegister()
@@ -194,6 +229,14 @@ void ULyraHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompo
 			}
 		}
 	}
+
+	if (ensure(!bReadyToBindInputs))
+	{
+		bReadyToBindInputs = true;
+	}
+
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(const_cast<APlayerController*>(PC), NAME_BindInputsNow);
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(const_cast<APawn*>(Pawn), NAME_BindInputsNow);
 }
 
 void ULyraHeroComponent::Input_AbilityInputTagPressed(FGameplayTag InputTag)
