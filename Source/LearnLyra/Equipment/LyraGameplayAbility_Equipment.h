@@ -8,7 +8,7 @@
 #include "LyraGameplayAbility_Equipment.generated.h"
 
 class ULyraEquipmentInstance;
-//class ULyraInventoryItemInstance;
+class ULyraInventoryItemInstance;
 
 /**
  * LyraGameplayAbility_Equipment
@@ -27,8 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Lyra|Ability")
 	ULyraEquipmentInstance* GetAssociatedEquipment() const;
 
-	//UFUNCTION(BlueprintCallable, Category = "Lyra|Ability")
-	//ULyraInventoryItemInstance* GetAssociatedItem() const;
+	UFUNCTION(BlueprintCallable, Category = "Lyra|Ability")
+	ULyraInventoryItemInstance* GetAssociatedItem() const;
 
 #if WITH_EDITOR
 	virtual EDataValidationResult IsDataValid(TArray<FText>& ValidationErrors) override;

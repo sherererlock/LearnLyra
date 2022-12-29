@@ -22,6 +22,7 @@ public class LearnLyra : ModuleRules
 			"GameplayTags",
 			"ModularGameplay",
 			"GameFeatures",
+			"AIModule",
 			"GameplayTasks",
 			"GameplayAbilities",
 			});
@@ -30,7 +31,9 @@ public class LearnLyra : ModuleRules
 			"CommonUI",
 			"CommonInput",
 			"InputCore",
+			"NetCore",
 			"EnhancedInput",
+			"GameplayMessageRuntime",
 			});
 
 		// Uncomment if you are using Slate UI

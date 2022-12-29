@@ -1,0 +1,84 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "AbilitySystem/Abilities/LyraGameplayAbility_Death.h"
+#include "LyraGame/LyraGameplayTags.h"
+#include "Components/LyraHealthComponent.h"
+#include "GameplayTagsManager.h"
+#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+
+ULyraGameplayAbility_Death::ULyraGameplayAbility_Death(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+	NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::ServerInitiated;
+
+	bAutoStartDeath = true;
+	UGameplayTagsManager::Get().CallOrRegister_OnDoneAddingNativeTagsDelegate(FSimpleDelegate::CreateUObject(this, &ThisClass::DoneAddingNativeTags));
+}
+
+void ULyraGameplayAbility_Death::DoneAddingNativeTags()
+{
+	if (HasAnyFlags(RF_ClassDefaultObject))
+	{
+		// Add the ability trigger tag as default to the CDO.
+		FAbilityTriggerData TriggerData;
+		TriggerData.TriggerTag = FLyraGameplayTags::Get().GameplayEvent_Death;
+		TriggerData.TriggerSource = EGameplayAbilityTriggerSource::GameplayEvent;
+		AbilityTriggers.Add(TriggerData);
+	}
+}
+
+void ULyraGameplayAbility_Death::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
+{
+	check(ActorInfo);
+	ULyraAbilitySystemComponent* ASC = CastChecked<ULyraAbilitySystemComponent>(ActorInfo->AbilitySystemComponent.Get());
+
+	FGameplayTagContainer AbilityTypesToIgnore;
+	AbilityTypesToIgnore.AddTag(FLyraGameplayTags::Get().Ability_Behavior_SurvivesDeath);
+
+	// Cancel all abilities and block others from starting.
+	ASC->CancelAbilities(nullptr, &AbilityTypesToIgnore, this);
+
+	SetCanBeCanceled(false);
+
+	if (bAutoStartDeath)
+	{
+		StartDeath();
+	}
+
+	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+}
+
+void ULyraGameplayAbility_Death::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
+{
+	check(ActorInfo);
+
+	// Always try to finish the death when the ability ends in case the ability doesn't.
+	// This won't do anything if the death hasn't been started.
+	FinishDeath();
+
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
+void ULyraGameplayAbility_Death::StartDeath()
+{
+	if (ULyraHealthComponent* HealthComponent = ULyraHealthComponent::FindHealthComponent(GetAvatarActorFromActorInfo()))
+	{
+		if (HealthComponent->GetDeathState() == ELyraDeathState::NotDead)
+		{
+			HealthComponent->StartDeath();
+		}
+	}
+}
+
+void ULyraGameplayAbility_Death::FinishDeath()
+{
+	if (ULyraHealthComponent* HealthComponent = ULyraHealthComponent::FindHealthComponent(GetAvatarActorFromActorInfo()))
+	{
+		if (HealthComponent->GetDeathState() == ELyraDeathState::DeathStarted)
+		{
+			HealthComponent->FinishDeath();
+		}
+	}
+}

@@ -9,6 +9,7 @@
 
 class ULyraPawnExtensionComponent;
 class UCameraComponent;
+class ULyraHealthComponent;
 
 UCLASS()
 class LEARNLYRA_API ALyraCharacter : public ACharacter, public IAbilitySystemInterface
@@ -29,6 +30,22 @@ protected:
 
 	void InitializeGameplayTags();
 
+	// Begins the death sequence for the character (disables collision, disables movement, etc...)
+	UFUNCTION()
+	virtual void OnDeathStarted(AActor* OwningActor);
+
+	// Ends the death sequence for the character (detaches controller, destroys pawn, etc...)
+	UFUNCTION()
+	virtual void OnDeathFinished(AActor* OwningActor);
+
+	// Called when the death sequence for the character has completed
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "OnDeathFinished"))
+	void K2_OnDeathFinished();
+
+	void DisableMovementAndCollision();
+	void DestroyDueToDeath();
+	void UninitAndDestroy();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -43,9 +60,14 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* CameraComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
+	ULyraHealthComponent* HealthComponent;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
 	// Í¨¹ý IAbilitySystemInterface ¼Ì³Ð
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const;
 };

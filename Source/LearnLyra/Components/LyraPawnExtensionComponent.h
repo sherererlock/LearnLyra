@@ -46,6 +46,9 @@ public:
 
 	void InitAbilitySystemComponent(ULyraAbilitySystemComponent* InASC, AActor* InOwnerActor);
 
+	// Should be called by the owning pawn to remove itself as the avatar of the ability system.
+	void UninitializeAbilitySystem();
+
 	void OnPawnReadyToInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate);
 
 protected:

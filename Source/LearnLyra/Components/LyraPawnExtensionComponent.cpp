@@ -79,6 +79,36 @@ void ULyraPawnExtensionComponent::InitAbilitySystemComponent(ULyraAbilitySystemC
 	AbilitySystemComponent->InitAbilityActorInfo(InOwnerActor, Pawn);
 }
 
+void ULyraPawnExtensionComponent::UninitializeAbilitySystem()
+{
+	if (!AbilitySystemComponent)
+	{
+		return;
+	}
+
+	// Uninitialize the ASC if we're still the avatar actor (otherwise another pawn already did it when they became the avatar actor)
+	if (AbilitySystemComponent->GetAvatarActor() == GetOwner())
+	{
+		AbilitySystemComponent->CancelAbilities(nullptr, nullptr);
+		AbilitySystemComponent->ClearAbilityInput();
+		AbilitySystemComponent->RemoveAllGameplayCues();
+
+		if (AbilitySystemComponent->GetOwnerActor() != nullptr)
+		{
+			AbilitySystemComponent->SetAvatarActor(nullptr);
+		}
+		else
+		{
+			// If the ASC doesn't have a valid owner, we need to clear *all* actor info, not just the avatar pairing
+			AbilitySystemComponent->ClearActorInfo();
+		}
+
+		//OnAbilitySystemUninitialized.Broadcast();
+	}
+
+	AbilitySystemComponent = nullptr;
+}
+
 void ULyraPawnExtensionComponent::OnPawnReadyToInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate)
 {
 	if (!OnPawnReadyToInitialize.IsBoundToObject(Delegate.GetUObject()))

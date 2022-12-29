@@ -8,9 +8,12 @@
 #include "LyraGame/LyraGameplayTags.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/LyraHealthComponent.h"
 
 // Sets default values
-ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) : 
+	Super(ObjectInitializer)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -34,6 +37,10 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) : Su
 	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); 
 
 	PawnExtComponent = CreateDefaultSubobject<ULyraPawnExtensionComponent>(TEXT("PawnExtComponent"));
+
+	HealthComponent = CreateDefaultSubobject<ULyraHealthComponent>(TEXT("HealthComponent"));
+	HealthComponent->OnDeathStarted.AddDynamic(this, &ThisClass::OnDeathStarted);
+	HealthComponent->OnDeathFinished.AddDynamic(this, &ThisClass::OnDeathFinished);
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = true;
@@ -87,6 +94,67 @@ void ALyraCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 UAbilitySystemComponent* ALyraCharacter::GetAbilitySystemComponent() const
 {
-	return nullptr;
+	return PawnExtComponent->GetLyraAbilitySystemComponent();
+}
+
+ULyraAbilitySystemComponent* ALyraCharacter::GetLyraAbilitySystemComponent() const
+{
+	return PawnExtComponent->GetLyraAbilitySystemComponent();
+}
+
+void ALyraCharacter::OnDeathStarted(AActor*)
+{
+	DisableMovementAndCollision();
+}
+
+void ALyraCharacter::DisableMovementAndCollision()
+{
+	if (Controller)
+	{
+		Controller->SetIgnoreMoveInput(true);
+	}
+
+	UCapsuleComponent* CapsuleComp = GetCapsuleComponent();
+	check(CapsuleComp);
+	CapsuleComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	CapsuleComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+
+	UCharacterMovementComponent* LyraMoveComp = CastChecked<UCharacterMovementComponent>(GetCharacterMovement());
+	LyraMoveComp->StopMovementImmediately();
+	LyraMoveComp->DisableMovement();
+}
+
+void ALyraCharacter::DestroyDueToDeath()
+{
+	K2_OnDeathFinished();
+
+	UninitAndDestroy();
+}
+
+
+void ALyraCharacter::UninitAndDestroy()
+{
+	if (GetLocalRole() == ROLE_Authority)
+	{
+		DetachFromControllerPendingDestroy();
+		SetLifeSpan(0.1f);
+	}
+
+	// Uninitialize the ASC if we're still the avatar actor (otherwise another pawn already did it when they became the avatar actor)
+	if (ULyraAbilitySystemComponent* LyraASC = GetLyraAbilitySystemComponent())
+	{
+		if (LyraASC->GetAvatarActor() == this)
+		{
+			PawnExtComponent->UninitializeAbilitySystem();
+		}
+	}
+
+	SetActorHiddenInGame(true);
+}
+
+
+void ALyraCharacter::OnDeathFinished(AActor*)
+{
+	GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ThisClass::DestroyDueToDeath);
 }
 
