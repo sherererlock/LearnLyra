@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ModularPlayerController.h"
 #include "GameFramework/PlayerController.h"
 #include "LyraPlayerController.generated.h"
 
@@ -11,7 +12,7 @@ class ULyraAbilitySystemComponent;
  * 
  */
 UCLASS()
-class LEARNLYRA_API ALyraPlayerController : public APlayerController
+class LEARNLYRA_API ALyraPlayerController : public AModularPlayerController
 {
 	GENERATED_BODY()
 

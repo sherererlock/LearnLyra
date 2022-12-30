@@ -21,6 +21,7 @@ public class LearnLyra : ModuleRules
 			"Engine", 
 			"GameplayTags",
 			"ModularGameplay",
+			"ModularGameplayActors",
 			"GameFeatures",
 			"AIModule",
 			"GameplayTasks",

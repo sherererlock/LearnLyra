@@ -13,6 +13,27 @@ void FLyraAbilitySet_GrantedHandles::AddAbilitySpecHandle(const FGameplayAbility
 	}
 }
 
+void FLyraAbilitySet_GrantedHandles::TakeFromAbilitySystem(ULyraAbilitySystemComponent* LyraASC)
+{
+	check(LyraASC);
+
+	if (!LyraASC->IsOwnerActorAuthoritative())
+	{
+		// Must be authoritative to give or take ability sets.
+		return;
+	}
+
+	for (const FGameplayAbilitySpecHandle& Handle : AbilitySpecHandles)
+	{
+		if (Handle.IsValid())
+		{
+			LyraASC->ClearAbility(Handle);
+		}
+	}
+
+	AbilitySpecHandles.Reset();
+}
+
 ULyraAbilitySet::ULyraAbilitySet(const FObjectInitializer& objectInitializer)
 	: Super(objectInitializer)
 {

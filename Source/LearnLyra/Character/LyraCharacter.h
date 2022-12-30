@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ModularCharacter.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "LyraCharacter.generated.h"
@@ -10,9 +11,10 @@
 class ULyraPawnExtensionComponent;
 class UCameraComponent;
 class ULyraHealthComponent;
+class ULyraInventoryItemDefinition;
 
 UCLASS()
-class LEARNLYRA_API ALyraCharacter : public ACharacter, public IAbilitySystemInterface
+class LEARNLYRA_API ALyraCharacter : public AModularCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -46,12 +48,19 @@ protected:
 	void DestroyDueToDeath();
 	void UninitAndDestroy();
 
+
+	// Temp
+	UFUNCTION(BlueprintCallable)
+	void Equip(TSubclassOf<ULyraInventoryItemDefinition> ItemDefinition);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
@@ -69,5 +78,5 @@ private:
 	// Í¨¹ý IAbilitySystemInterface ¼Ì³Ð
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const;
+
 };

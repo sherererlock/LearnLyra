@@ -11,6 +11,14 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/LyraHealthComponent.h"
 
+// TODO: Delete Those
+#include "Inventory/LyraInventoryItemDefinition.h"
+#include "Inventory/LyraInventoryManagerComponent.h"
+#include "Inventory/LyraInventoryItemInstance.h"
+#include "Inventory/InventoryItemFragment_EquipItem.h"
+#include "Equipment/LyraEquipManagerComponent.h"
+#include "Equipment/LyraEquipmentInstance.h"
+
 // Sets default values
 ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) : 
 	Super(ObjectInitializer)
@@ -75,6 +83,36 @@ void ALyraCharacter::UnPossessed()
 void ALyraCharacter::InitializeGameplayTags()
 {
 
+}
+
+void ALyraCharacter::Equip(TSubclassOf<ULyraInventoryItemDefinition> ItemDefinition)
+{
+	AController* PlayerController = GetController();
+	check(PlayerController);
+
+	ULyraInventoryManagerComponent* ManagerComponent = PlayerController->FindComponentByClass<ULyraInventoryManagerComponent>();
+	if (ManagerComponent == nullptr)
+		return;
+
+	check(ManagerComponent);
+	if (ULyraInventoryItemInstance* Instance = ManagerComponent->AddItemDefinition(ItemDefinition))
+	{
+		if (const UInventoryItemFragment_EquipItem* EquipInfo = Instance->FindFragmentByClass<UInventoryItemFragment_EquipItem>())
+		{
+			TSubclassOf<ULyraEquipmentDefinition> EquipDef = EquipInfo->EquipmentDefinition;
+			if (EquipDef)
+			{
+				if (ULyraEquipmentManagerComponent* EquipmentManager = FindComponentByClass<ULyraEquipmentManagerComponent>())
+				{
+					ULyraEquipmentInstance* EquippedItem = EquipmentManager->EquipItem(EquipDef);
+					if (EquippedItem != nullptr)
+					{
+						EquippedItem->SetInstigator(Instance);
+					}
+				}
+			}
+		}
+	}
 }
 
 // Called every frame

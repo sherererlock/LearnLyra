@@ -36,6 +36,8 @@ struct FLyraAbilitySet_GrantedHandles
 public:
 	void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle);
 
+	void TakeFromAbilitySystem(ULyraAbilitySystemComponent* LyraASC);
+
 protected:
 
 	// Handles to the granted abilities.

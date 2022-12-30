@@ -33,3 +33,8 @@
 Experience数据文件不加载
 
 - 需要添加到AssetManager的PrimaryAssetType中
+
+在WeaponSpawner中定义了InventoryItemDefinition之后，设置时找不到对象
+
+- 有时候需要定义Class Reference
+- 重点时区分class Reference和objectReference的区别
