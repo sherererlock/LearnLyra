@@ -30,6 +30,7 @@
 *.exe
 *.out
 *.app
+*.sln
 
 # VS Files
 .vsconfig
@@ -40,4 +41,3 @@ Binaries/
 Intermediate/
 Saved/
 Content/__ExternalActors__/
-

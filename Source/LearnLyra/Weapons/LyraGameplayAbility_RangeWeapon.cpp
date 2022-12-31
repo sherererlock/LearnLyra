@@ -40,7 +40,7 @@ bool ULyraGameplayAbility_RangeWeapon::CanActivateAbility(const FGameplayAbility
 		}
 	}
 
-	return false;
+	return true;
 }
 
 void ULyraGameplayAbility_RangeWeapon::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
