@@ -152,11 +152,11 @@ void ULyraHeroComponent::OnPawnReadyToInitialize()
 
 		PawnExtComp->InitAbilitySystemComponent(LyraPS->GetLyraAbilitySystemComponent(), LyraPS);
 
-		{
-			const TArray<ULyraAbilitySet*>& ASet = PawnData->AbilitySet;
-			for (int i = 0; i < ASet.Num(); i++)
-				ASet[i]->GiveToAbilitySystem(LyraPS->GetLyraAbilitySystemComponent(), nullptr);
-		}
+		//{
+		//	const TArray<ULyraAbilitySet*>& ASet = PawnData->AbilitySet;
+		//	for (int i = 0; i < ASet.Num(); i++)
+		//		ASet[i]->GiveToAbilitySystem(LyraPS->GetLyraAbilitySystemComponent(), nullptr);
+		//}
 	}
 
 	if (APlayerController* PC = GetController<APlayerController>())

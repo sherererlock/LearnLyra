@@ -13,6 +13,22 @@ void FLyraAbilitySet_GrantedHandles::AddAbilitySpecHandle(const FGameplayAbility
 	}
 }
 
+void FLyraAbilitySet_GrantedHandles::AddGamplayEffectSpecHandle(const FActiveGameplayEffectHandle& handle)
+{
+	if (handle.IsValid())
+	{
+		GameplayEffectHandles.Add(handle);
+	}
+}
+
+void FLyraAbilitySet_GrantedHandles::AddAttributeSet(UAttributeSet* Set)
+{
+	if (Set != nullptr)
+	{
+		GrandtedAttributeSets.Add(Set);
+	}
+}
+
 void FLyraAbilitySet_GrantedHandles::TakeFromAbilitySystem(ULyraAbilitySystemComponent* LyraASC)
 {
 	check(LyraASC);
@@ -31,7 +47,22 @@ void FLyraAbilitySet_GrantedHandles::TakeFromAbilitySystem(ULyraAbilitySystemCom
 		}
 	}
 
+	for (const FActiveGameplayEffectHandle& Handle : GameplayEffectHandles)
+	{
+		if (Handle.IsValid())
+		{
+			LyraASC->RemoveActiveGameplayEffect(Handle);
+		}
+	}
+
+	for (UAttributeSet* Set : GrandtedAttributeSets)
+	{
+		LyraASC->GetSpawnedAttributes_Mutable().Remove(Set);
+	}
+
 	AbilitySpecHandles.Reset();
+	GameplayEffectHandles.Reset();
+	GrandtedAttributeSets.Reset();
 }
 
 ULyraAbilitySet::ULyraAbilitySet(const FObjectInitializer& objectInitializer)
@@ -61,5 +92,37 @@ void ULyraAbilitySet::GiveToAbilitySystem(ULyraAbilitySystemComponent* ASC, FLyr
 		const FGameplayAbilitySpecHandle ASHandle = ASC->GiveAbility(ASPec);
 		if(OutGrantedHandles)
 			OutGrantedHandles->AddAbilitySpecHandle(ASHandle);
+	}
+
+	for (int32 i = 0; i < GrantedGameplayEffects.Num(); i++)
+	{
+		const FLyraAbilitySet_GameplayEffect& EffectToGrant = GrantedGameplayEffects[i];
+
+		if(!IsValid(EffectToGrant.GameplayEffect))
+			continue;
+
+		const UGameplayEffect* GameplayEffect = EffectToGrant.GameplayEffect->GetDefaultObject<UGameplayEffect>();
+
+		const FActiveGameplayEffectHandle GameplayEffectHandle = ASC->ApplyGameplayEffectToSelf(GameplayEffect, EffectToGrant.EffectLevel, ASC->MakeEffectContext());
+
+		if(OutGrantedHandles)
+			OutGrantedHandles->AddGamplayEffectSpecHandle(GameplayEffectHandle);
+	}
+
+	// Grant the attribute sets.
+	for (int32 SetIndex = 0; SetIndex < GrantedAttributeSets.Num(); ++SetIndex)
+	{
+		const FLyraAbilitySet_AttributeSet& SetToGrant = GrantedAttributeSets[SetIndex];
+
+		if (!IsValid(SetToGrant.AttributeSet))
+			continue;
+
+		UAttributeSet* NewSet = NewObject<UAttributeSet>(ASC->GetOwner(), SetToGrant.AttributeSet);
+		ASC->AddAttributeSetSubobject(NewSet);
+
+		if (OutGrantedHandles)
+		{
+			OutGrantedHandles->AddAttributeSet(NewSet);
+		}
 	}
 }

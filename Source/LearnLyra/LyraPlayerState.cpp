@@ -7,6 +7,7 @@
 #include "GameMode/LyraExperienceDefinition.h"
 #include "Character/LyraPawnData.h"
 #include "Net/UnrealNetwork.h"
+#include "AbilitySystem/Abilities/LyraAbilitySet.h"
 
 ALyraPlayerState::ALyraPlayerState(const FObjectInitializer& ObjectInitilize)
 	: Super(ObjectInitilize)
@@ -78,6 +79,13 @@ void ALyraPlayerState::SetPawnData(const ULyraPawnData* InPawnData)
 	}
 
 	PawnData = InPawnData;
+	for(ULyraAbilitySet* AbilitySet : PawnData->AbilitySet )
+	{
+		if (AbilitySet)
+		{
+			AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr);
+		}
+	}
 }
 
 void ALyraPlayerState::CopyProperties(APlayerState* PlayerState)
