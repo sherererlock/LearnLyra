@@ -47,6 +47,7 @@ public:
 
 class ALyraCharacter;
 class ULyraHeroComponent;
+class ULyraAbilityCost;
 /**
  * 
  */
@@ -86,6 +87,8 @@ protected:
 
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Hanlde, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
+	virtual bool CheckCost(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, OUT FGameplayTagContainer* OptionalRelevantTags = nullptr) const override;
+	virtual void ApplyCost(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) const override;
 
 	/** Called when this ability is granted to the ability system component. */
 	UFUNCTION(BlueprintImplementableEvent, Category = Ability, DisplayName = "OnAbilityAdded")
@@ -115,4 +118,9 @@ protected:
 	// Map of failure tags to anim montages that should be played with them
 	UPROPERTY(EditDefaultsOnly, Category = "Advanced")
 	TMap<FGameplayTag, UAnimMontage*> FailureTagToAnimMontage;
+
+
+	// Additional costs that must be paid to activate this ability
+	UPROPERTY(EditDefaultsOnly, Instanced, Category = Costs)
+	TArray<TObjectPtr<ULyraAbilityCost>> AdditionalCosts;
 };

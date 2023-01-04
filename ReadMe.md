@@ -38,3 +38,7 @@ Experience数据文件不加载
 
 - 有时候需要定义Class Reference
 - 重点时区分class Reference和objectReference的区别
+
+冲刺与表情技能无法释放
+
+- 按键并未触发回调

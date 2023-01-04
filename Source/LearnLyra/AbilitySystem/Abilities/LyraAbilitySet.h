@@ -10,6 +10,7 @@
 class ULyraAbilitySystemComponent;
 class ULyraGameplayAbility;
 class UGameplayEffect;
+struct FLyraAbilitySet_GrantedHandles;
 
 USTRUCT(BlueprintType)
 struct FLyraAbilitySet_GameplayAbility
@@ -29,7 +30,7 @@ public:
 	FGameplayTag InputTag;
 };
 
-USTRUCT(BluepintType)
+USTRUCT(BlueprintType)
 struct FLyraAbilitySet_GameplayEffect
 {
 	GENERATED_BODY()
@@ -45,7 +46,7 @@ public:
 	float EffectLevel = 1.0f;
 };
 
-USTRUCT(BluepintType)
+USTRUCT(BlueprintType)
 struct FLyraAbilitySet_AttributeSet
 {
 	GENERATED_BODY()
@@ -55,6 +56,7 @@ public:
 	TSubclassOf<UAttributeSet> AttributeSet;
 };
 
+USTRUCT(BlueprintType)
 struct FLyraAbilitySet_GrantedHandles
 {
 	GENERATED_BODY()

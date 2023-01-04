@@ -51,7 +51,7 @@ protected:
 
 private:
 	// The current health attribute.  The health will be capped by the max health attribute.  Health is hidden from modifiers so only executions can modify it.
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Lyra|Health", Meta = (HideFromModifiers, AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Lyra|Health", Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData Health;
 
 	// The current max health attribute.  Max health is an attribute since gameplay effects can modify it.
