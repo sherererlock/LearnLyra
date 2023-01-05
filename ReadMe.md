@@ -41,4 +41,5 @@ Experience数据文件不加载
 
 冲刺与表情技能无法释放
 
-- 按键并未触发回调
+- 只能引用ProjectContent目录下的资源，不能直接引用Plugins下的资源
+- 

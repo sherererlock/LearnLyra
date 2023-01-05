@@ -150,8 +150,7 @@ void UGameEngine::Start()
                 
                 // 创建AISystem
                 WorldContext.World()->CreateAISystem();
-                
-                
+
                 WorldContext.World()->InitializeActorsForPlay(URL, true, &Context);
                 {
                     // 注册Component,调用OnRegister函数

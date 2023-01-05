@@ -44,6 +44,7 @@ void ULyraInputComponent::BindNativeAction(const ULyraInputConfig* InputConfig, 
 	if (const UInputAction* IA = InputConfig->FindNativeInputActionForTag(InputTag, bLogIfNotFound))
 	{
 		BindAction(IA, TriggerEvent, Object, Func);
+		UE_LOG(LogTemp, Warning, TEXT("BindNativeAction InputTag %s "), *InputTag.ToString());
 	}
 }
 
@@ -61,6 +62,8 @@ void ULyraInputComponent::BindAbilityActions(const ULyraInputConfig* InputConfig
 
 			if (ReleasedFunc)
 				BindHandles.Add(BindAction(action.InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, action.InputTag).GetHandle());
+
+			UE_LOG(LogTemp, Warning, TEXT("BindAbilityActions InputTag %s "), *action.InputTag.ToString())
 		}
 	}
 }
