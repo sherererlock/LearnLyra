@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "LyraGameMode.generated.h"
 
+class ULyraPawnData;
 class ULyraExperienceDefinition;
 /**
  * 

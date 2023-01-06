@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ModularPlayerState.h"
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
 #include "LyraPlayerState.generated.h"
@@ -15,7 +16,7 @@ class ULyraPawnData;
  * 
  */
 UCLASS()
-class LEARNLYRA_API ALyraPlayerState : public APlayerState, public IAbilitySystemInterface
+class LEARNLYRA_API ALyraPlayerState : public AModularPlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 

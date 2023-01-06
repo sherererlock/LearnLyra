@@ -2,6 +2,7 @@
 
 
 #include "GameMode/LyraGameState.h"
+#include "LyraExperienceManagerComponent.h"
 
 ALyraGameState::ALyraGameState(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

@@ -3,7 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ModularGameState.h"
+
 #include "GameFramework/GameStateBase.h"
+
 #include "LyraGameState.generated.h"
 
 class ULyraExperienceManagerComponent;
@@ -11,7 +14,7 @@ class ULyraExperienceManagerComponent;
  * 
  */
 UCLASS(Config = Game)
-class LEARNLYRA_API ALyraGameState : public AGameStateBase
+class LEARNLYRA_API ALyraGameState : public AModularGameStateBase
 {
 	GENERATED_BODY()
 	

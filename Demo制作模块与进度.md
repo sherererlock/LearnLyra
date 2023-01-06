@@ -11,7 +11,7 @@
     - [x] GA_Emote
     - [ ] GA_ADS
     - [x] GA_WeaponFire
-    - [ ] GA_Reload
+    - [x] GA_Reload
     - [ ] GA_AutoLoad
     - [ ] GA_InterAction
     - [x] GA_HeroDeath
