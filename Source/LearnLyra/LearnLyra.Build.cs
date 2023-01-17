@@ -29,6 +29,7 @@ public class LearnLyra : ModuleRules
 			});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { 
+			"UMG",
 			"CommonUI",
 			"CommonInput",
 			"InputCore",

@@ -7,11 +7,11 @@
 
 #include "LyraWeaponInstance.h"
 #include "AbilitySystem/LyraAbilitySourceInterface.h"
+#include "GameplayTagContainer.h"
 
 #include "LyraRangeWeaponInstance.generated.h"
 
 class UPhysicalMaterial;
-
 /**
  * ULyraRangedWeaponInstance
  *
