@@ -35,6 +35,9 @@ public class LearnLyra : ModuleRules
 			"InputCore",
 			"NetCore",
 			"EnhancedInput",
+			"CommonGame",
+			"CommonUser",
+			"UIExtension",
 			"GameplayMessageRuntime",
 			});
 
