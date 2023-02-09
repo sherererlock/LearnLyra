@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "CommonGameInstance.h"
 #include "LyraGameInstance.generated.h"
 
 class ALyraPlayerController;
@@ -12,7 +13,7 @@ class ALyraPlayerController;
  * 
  */
 UCLASS()
-class LEARNLYRA_API ULyraGameInstance : public UGameInstance
+class LEARNLYRA_API ULyraGameInstance : public UCommonGameInstance
 {
 	GENERATED_BODY()
 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonLocalPlayer.h"
 #include "Engine/LocalPlayer.h"
 #include "LyraLocalPlayer.generated.h"
 
@@ -10,7 +11,7 @@
  * 
  */
 UCLASS()
-class LEARNLYRA_API ULyraLocalPlayer : public ULocalPlayer
+class LEARNLYRA_API ULyraLocalPlayer : public UCommonLocalPlayer
 {
 	GENERATED_BODY()
 	
