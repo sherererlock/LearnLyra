@@ -96,7 +96,7 @@ void ULyraCameraComponent::GetCameraView(float DeltaTime, FMinimalViewInfo& Desi
             void ULyraCameraMode::UpdateCameraMode(float DeltaTime)
             {
                 // 更新位置、旋转以及FOV
-                // 位置：眼睛的位置 、旋转：控制器的旋转
+                // 位置：眼睛的位置、旋转：控制器的旋转
                 void ULyraCameraMode::UpdateView(float DeltaTime);
                 
                 // 更新混合参数
