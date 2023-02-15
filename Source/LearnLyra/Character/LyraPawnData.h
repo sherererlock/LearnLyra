@@ -9,6 +9,7 @@
 
 class ULyraInputConfig;
 class ULyraAbilitySet;
+class ULyraCameraMode;
 /**
  * 
  */
@@ -30,4 +31,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Lyra|Ability")
 	TArray<ULyraAbilitySet*> AbilitySet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Lyra|Camera")
+	TSubclassOf<ULyraCameraMode> DefaultCameraMode;
 };

@@ -58,7 +58,7 @@ public:
 
 	AActor* GetTargetActor() const;
 
-	const FLyraCameraModeView& GetCameraModeView() const { return View };
+	const FLyraCameraModeView& GetCameraModeView() const { return View; }
 	// Called when this camera mode is activated on the camera mode stack.
 	virtual void OnActivation() {};
 

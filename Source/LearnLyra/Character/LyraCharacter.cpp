@@ -10,6 +10,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/LyraHealthComponent.h"
+#include "Camera/LyraCameraComponent.h"
+#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
 
 // TODO: Delete Those
 #include "Inventory/LyraInventoryItemDefinition.h"
@@ -18,6 +20,7 @@
 #include "Inventory/InventoryItemFragment_EquipItem.h"
 #include "Equipment/LyraEquipManagerComponent.h"
 #include "Equipment/LyraEquipmentInstance.h"
+
 
 // Sets default values
 ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) : 
@@ -41,7 +44,7 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) :
 	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
+	CameraComponent = CreateDefaultSubobject<ULyraCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); 
 
 	PawnExtComponent = CreateDefaultSubobject<ULyraPawnExtensionComponent>(TEXT("PawnExtComponent"));

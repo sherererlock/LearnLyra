@@ -14,6 +14,7 @@
 #include "LyraPlayerState.h"
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
 #include "Components/GameFrameworkComponentManager.h"
+#include "Camera/LyraCameraComponent.h"
 
 namespace LyraHero
 {
@@ -163,6 +164,14 @@ void ULyraHeroComponent::OnPawnReadyToInitialize()
 	{
 		if (Pawn->InputComponent != nullptr)
 			InitializePlayerInput(Pawn->InputComponent);
+	}
+
+	if (bIsLocallyControlled && PawnData)
+	{
+		if (ULyraCameraComponent* LyraCameraComponent = ULyraCameraComponent::FindCameraComponent(Pawn))
+		{
+			LyraCameraComponent->DetermineCameraModeDelegate.BindUObject(this, &ThisClass::DetermineCameraMode);
+		}
 	}
 
 	bPawnHasInitialized = true;
@@ -344,4 +353,23 @@ void ULyraHeroComponent::Input_Crouch(const FInputActionValue& InputActionValue)
 
 void ULyraHeroComponent::Input_AutoRun(const FInputActionValue& InputActionValue)
 {
+}
+
+TSubclassOf<ULyraCameraMode> ULyraHeroComponent::DetermineCameraMode()
+{
+	const APawn* Pawn = GetPawn<APawn>();
+	if (!Pawn)
+	{
+		return nullptr;
+	}
+
+	if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+	{
+		if (const ULyraPawnData* PawnData = PawnExtComp->GetPawnData<ULyraPawnData>())
+		{
+			return PawnData->DefaultCameraMode;
+		}
+	}
+
+	return nullptr;
 }

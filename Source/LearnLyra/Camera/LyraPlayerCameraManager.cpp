@@ -3,7 +3,7 @@
 
 #include "Camera/LyraPlayerCameraManager.h"
 
-ALyraPlayerCameraManager::ALyraPlayerCameraManager(FObjectInitializer& ObjectInitializer)
+ALyraPlayerCameraManager::ALyraPlayerCameraManager(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer)
 {
 	DefaultFOV = LYRA_CAMERA_DEFAULT_FOV;
@@ -11,7 +11,7 @@ ALyraPlayerCameraManager::ALyraPlayerCameraManager(FObjectInitializer& ObjectIni
 	ViewPitchMax = LYRA_CAMERA_DEFAULT_PITCH_MAX;
 }
 
-void ALyraPlayerCameraManager::UpdateViewTarget(FTViewTarget& outVT, float DeltaTime)
+void ALyraPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime)
 {
 	Super::UpdateViewTarget(OutVT, DeltaTime);
 }

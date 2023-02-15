@@ -9,9 +9,10 @@
 #include "LyraCharacter.generated.h"
 
 class ULyraPawnExtensionComponent;
-class UCameraComponent;
+class ULyraCameraComponent;
 class ULyraHealthComponent;
 class ULyraInventoryItemDefinition;
+class ULyraAbilitySystemComponent;
 
 UCLASS()
 class LEARNLYRA_API ALyraCharacter : public AModularCharacter, public IAbilitySystemInterface
@@ -67,7 +68,7 @@ private:
 	ULyraPawnExtensionComponent* PawnExtComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* CameraComponent;
+	ULyraCameraComponent* CameraComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
 	ULyraHealthComponent* HealthComponent;

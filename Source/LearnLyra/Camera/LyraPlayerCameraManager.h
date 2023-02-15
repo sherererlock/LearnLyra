@@ -19,7 +19,7 @@ class LEARNLYRA_API ALyraPlayerCameraManager : public APlayerCameraManager
 	GENERATED_BODY()
 	
 public:
-	ALyraPlayerCameraManager(FObjectInitializer& ObjectInitialier = FObjectInitializer::Get());
+	ALyraPlayerCameraManager(const FObjectInitializer& ObjectInitialier);
 
 protected:
 	virtual void UpdateViewTarget(FTViewTarget& outVT, float DeltaTime) override;
