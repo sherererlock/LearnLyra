@@ -37,6 +37,9 @@ void ULyraCameraMode_TPS::UpdateView(float DeltaTime)
 		{
 			const FVector TargetOffset = TargetOffsetCurve->GetVectorValue(PivotRotation.Pitch);
 			View.Location = PivotLocation + PivotRotation.RotateVector(TargetOffset);
+
+			//UE_LOG(LogTemp, Warning, TEXT("Pitch(%f),TargetOffset(%f,%f,%f)"), PivotRotation.Pitch,
+			//	TargetOffset.X, TargetOffset.Y, TargetOffset.Z)
 		}
 	}
 	else
@@ -48,6 +51,7 @@ void ULyraCameraMode_TPS::UpdateView(float DeltaTime)
 		TargetOffset.Z = TargetOffsetZ.GetRichCurveConst()->Eval(PivotRotation.Pitch);
 
 		View.Location = PivotLocation + PivotRotation.RotateVector(TargetOffset);
+		
 	}
 }
 
