@@ -48,6 +48,8 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) :
 	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); 
 
 	PawnExtComponent = CreateDefaultSubobject<ULyraPawnExtensionComponent>(TEXT("PawnExtComponent"));
+	PawnExtComponent->OnAbilitySystemInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate::CreateUObject(this, &ThisClass::OnAbilitySystemInitialized));
+	PawnExtComponent->OnAbilitySystemUninitialize_Register(FSimpleMulticastDelegate::FDelegate::CreateUObject(this, &ThisClass::OnAbilitySystemUninitialized));
 
 	HealthComponent = CreateDefaultSubobject<ULyraHealthComponent>(TEXT("HealthComponent"));
 	HealthComponent->OnDeathStarted.AddDynamic(this, &ThisClass::OnDeathStarted);
@@ -56,6 +58,21 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) :
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
+}
+
+void ALyraCharacter::OnAbilitySystemInitialized()
+{
+	ULyraAbilitySystemComponent* ASC = GetLyraAbilitySystemComponent();
+	check(ASC);
+
+	HealthComponent->InitializeWithAbilitySystem(ASC);
+
+	InitializeGameplayTags();
+}
+
+void ALyraCharacter::OnAbilitySystemUninitialized()
+{
+	HealthComponent->UninitializeFromAbilitySystem();
 }
 
 // Called when the game starts or when spawned
@@ -85,7 +102,29 @@ void ALyraCharacter::UnPossessed()
 
 void ALyraCharacter::InitializeGameplayTags()
 {
+	if (ULyraAbilitySystemComponent* LyraASC = GetLyraAbilitySystemComponent())
+	{
+		const FLyraGameplayTags& GameplayTags = FLyraGameplayTags::Get();
 
+		for (const TPair<uint8, FGameplayTag>& TagMapping : GameplayTags.MovementModeTagMap)
+		{
+			if (TagMapping.Value.IsValid())
+			{
+				LyraASC->SetLooseGameplayTagCount(TagMapping.Value, 0);
+			}
+		}
+
+		for (const TPair<uint8, FGameplayTag>& TagMapping : GameplayTags.CustomMovementModeTagMap)
+		{
+			if (TagMapping.Value.IsValid())
+			{
+				LyraASC->SetLooseGameplayTagCount(TagMapping.Value, 0);
+			}
+		}
+
+		//ULyraCharacterMovementComponent* LyraMoveComp = CastChecked<ULyraCharacterMovementComponent>(GetCharacterMovement());
+		//SetMovementModeTag(LyraMoveComp->MovementMode, LyraMoveComp->CustomMovementMode, true);
+	}
 }
 
 void ALyraCharacter::Equip(TSubclassOf<ULyraInventoryItemDefinition> ItemDefinition)

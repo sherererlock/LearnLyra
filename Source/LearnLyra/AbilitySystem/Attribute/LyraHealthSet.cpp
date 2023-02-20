@@ -55,6 +55,24 @@ void ULyraHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackD
 {
 	Super::PostGameplayEffectExecute(Data);
 
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		if (Data.EvaluatedData.Magnitude < 0.0f)
+		{
+			
+		}
+
+		if (GetHealth() <= 0.0f && !bOutOfHealth)
+		{
+			const FGameplayEffectContextHandle& EffectContext = Data.EffectSpec.GetEffectContext();
+			AActor* Instigator = EffectContext.GetOriginalInstigator();
+			AActor* Causer = EffectContext.GetEffectCauser();
+
+			OnOutOfHealth.Broadcast(Instigator, Causer, Data.EffectSpec, Data.EvaluatedData.Magnitude);
+		}
+
+		bOutOfHealth = GetHealth() < 0.0f;
+	}
 }
 
 void ULyraHealthSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const

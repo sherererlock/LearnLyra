@@ -24,6 +24,10 @@ public:
 	ALyraCharacter(const FObjectInitializer& ObjectInitializer);
 
 protected:
+
+	virtual void OnAbilitySystemInitialized();
+	virtual void OnAbilitySystemUninitialized();
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

@@ -51,10 +51,16 @@ public:
 
 	void OnPawnReadyToInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate);
 
+	void OnAbilitySystemInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate);
+	void OnAbilitySystemUninitialize_Register(FSimpleMulticastDelegate::FDelegate Delegate);
+
 protected:
 
 	// Delegate fired when pawn has everything needed for initialization.
 	FSimpleMulticastDelegate OnPawnReadyToInitialize;
+
+	FSimpleMulticastDelegate OnAbilitySystemInitialize;
+	FSimpleMulticastDelegate OnAbilitySystemUninitialize;
 
 protected:
 

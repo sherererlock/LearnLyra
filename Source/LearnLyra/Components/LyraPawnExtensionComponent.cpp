@@ -71,12 +71,21 @@ bool ULyraPawnExtensionComponent::CheckPawnReadyToInitialize()
 
 void ULyraPawnExtensionComponent::InitAbilitySystemComponent(ULyraAbilitySystemComponent* InASC, AActor* InOwnerActor)
 {
+	check(InASC);
+	check(InOwnerActor);
 	if (InASC == AbilitySystemComponent)
 		return;
+
+	if (AbilitySystemComponent)
+	{
+		UninitializeAbilitySystem();
+	}
 
 	AbilitySystemComponent = InASC;
 	APawn* Pawn = GetPawnChecked<APawn>();
 	AbilitySystemComponent->InitAbilityActorInfo(InOwnerActor, Pawn);
+
+	OnAbilitySystemInitialize.Broadcast();
 }
 
 void ULyraPawnExtensionComponent::UninitializeAbilitySystem()
@@ -103,7 +112,7 @@ void ULyraPawnExtensionComponent::UninitializeAbilitySystem()
 			AbilitySystemComponent->ClearActorInfo();
 		}
 
-		//OnAbilitySystemUninitialized.Broadcast();
+		OnAbilitySystemUninitialize.Broadcast();
 	}
 
 	AbilitySystemComponent = nullptr;
@@ -119,6 +128,27 @@ void ULyraPawnExtensionComponent::OnPawnReadyToInitialize_RegisterAndCall(FSimpl
 	if (bPawnReadyToInitialize)
 	{
 		Delegate.Execute();
+	}
+}
+
+void ULyraPawnExtensionComponent::OnAbilitySystemInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate)
+{
+	if (!OnAbilitySystemInitialize.IsBoundToObject(Delegate.GetUObject()))
+	{
+		OnAbilitySystemInitialize.Add(Delegate);
+	}
+
+	if (AbilitySystemComponent)
+	{
+		Delegate.Execute();
+	}
+}
+
+void ULyraPawnExtensionComponent::OnAbilitySystemUninitialize_Register(FSimpleMulticastDelegate::FDelegate Delegate)
+{
+	if (!OnAbilitySystemUninitialize.IsBoundToObject(Delegate.GetUObject()))
+	{
+		OnAbilitySystemUninitialize.Add(Delegate);
 	}
 }
 
