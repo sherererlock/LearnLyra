@@ -20,7 +20,7 @@
 ### NetDriver、NetConnection、Channel
 
 一旦我们运行了一个多人游戏，虚幻的Replication系统就会在幕后工作，以确保所有这些不同的游戏实例都是同步的：它们都建立了自己的共享世界的画面，而Replication系统则确保它们都同意在该世界中发生的事情。为了实现这一点，Replication系统依赖于三个重要的类。NetDriver, NetConnection 和 Channel。![](GameNNC.png)
-在这个例子中，我们有一个专用服务器和两个客户端。这三个进程中的每一个都有自己的引擎对象。当我们启动服务器时，它创建一个NetDriver，并开始监听来自远程进程的消息。当我们启动一个客户端时，它创建了自己的NetDriver，向服务器发送连接请求。一旦服务器和客户端的NetDriver取得联系，就会在每个NetDriver中建立一个NetConnection。服务器对每个连接的远程播放器有一个NetConnection。每个客户端都有一个NetConnection，代表它与服务器的连接。在每个NetConnection中，有许多不同的Channels。一般来说，一个NetConnection会有一个ControlChannel和一个VoiceChannel，然后每个连接会有一系列的ActorChannels(连接上每个Actor都有一个Channel)。![](NNC.png)
+在这个例子中，我们有一个专用服务器和两个客户端。这三个进程中的每一个都有自己的引擎对象。当我们启动服务器时，它创建一个NetDriver，并开始监听来自远程进程的消息。当我们启动一个客户端时，它创建了自己的NetDriver，向服务器发送连接请求。一旦服务器和客户端的NetDriver取得联系，就会在每个NetDriver中建立一个NetConnection。服务器对每个连接的Client有一个NetConnection。每个客户端都有一个NetConnection，代表它与服务器的连接。在每个NetConnection中，有许多不同的Channels。一般来说，一个NetConnection会有一个ControlChannel和一个VoiceChannel，然后每个连接会有一系列的ActorChannels(连接上每个Actor都有一个Channel)。![](NNC.png)
 这说明了复制系统的一个关键事实：即复制发生在Actors的层面上。如果你需要一个Actor在网络上保持同步，那么你就把这个Actor配置为有资格进行复制。![](NNC1.png)当一个有资格被复制的Actor被认为与某个特定的玩家相关时，服务器将在该玩家的NetConnection中打开一个ActorChannel，服务器和客户端将使用该通道来交换关于该Actor的信息。![](ActorChannel.png)
 
 ### Acor Replication

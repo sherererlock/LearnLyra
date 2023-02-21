@@ -8,11 +8,17 @@
 #include "Character/LyraPawnData.h"
 #include "Net/UnrealNetwork.h"
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
+#include "AbilitySystem/Attribute/LyraHealthSet.h"
 
 ALyraPlayerState::ALyraPlayerState(const FObjectInitializer& ObjectInitilize)
 	: Super(ObjectInitilize)
 {
 	AbilitySystemComponent = ObjectInitilize.CreateDefaultSubobject<ULyraAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+
+	CreateDefaultSubobject<ULyraHealthSet>(TEXT("HealthSet"));
+
 }
 
 void ALyraPlayerState::PreInitializeComponents()

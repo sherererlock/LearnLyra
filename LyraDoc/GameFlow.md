@@ -47,6 +47,10 @@ void ULyraGameplayAbility_Death::ActivateAbility()
         void ULyraHealthComponent::StartDeath()
         {
             OnDeathStarted.Broadcast(Owner);
+            GA_AutoRespawn::OnDeathStarted;
+		   {
+    
+		   }
             void ALyraCharacter::OnDeathStarted(AActor*)
             {
                 // 禁止输入、禁用碰撞和移动
@@ -96,6 +100,19 @@ void ULyraGameplayAbility_Death::EndAbility()
 重生流程
 
 ```C++
+void ULyraAbilitySystemComponent::InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor)
+{
+    void ULyraGameplayAbility::OnPawnAvatarSet();
+    {
+        GA_AutoRespawn::OnPawnAvatarSet();
+        {
+            BindDeathListener()
+            {
+                OnDeathStarted
+            }
+        }
+    }
+}
 
 ```
 
