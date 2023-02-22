@@ -82,6 +82,8 @@ public:
 		ScriptOnAbilityFailedToActivate(FailedReason);
 	}
 
+
+	virtual void OnPawnAvatarSet();
 protected:
 	//~UGameplayAbility interface
 

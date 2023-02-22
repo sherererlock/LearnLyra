@@ -19,6 +19,8 @@ class LEARNLYRA_API ULyraAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	ULyraAbilitySystemComponent(const FObjectInitializer& ObjectInitialzer = FObjectInitializer::Get());
 
+	virtual void InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor) override;
+
 	void AbilityInputTagPressed(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 

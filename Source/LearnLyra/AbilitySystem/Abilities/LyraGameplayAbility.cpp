@@ -77,6 +77,11 @@ ULyraHeroComponent* ULyraGameplayAbility::GetHeroComponentFromActorInfo() const
 	return nullptr;
 }
 
+void ULyraGameplayAbility::OnPawnAvatarSet()
+{
+	K2_OnPawnAvatarSet();
+}
+
 bool ULyraGameplayAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Hanlde, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const
 {
 	return Super::CanActivateAbility(Hanlde, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);

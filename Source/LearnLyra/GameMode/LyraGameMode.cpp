@@ -4,6 +4,7 @@
 #include "GameMode/LyraGameMode.h"
 #include "GameMode/LyraGameState.h"
 #include "Player/LyraPlayerController.h"
+#include "GameMode/LyraPlayerBotController.h"
 #include "Character/LyraCharacter.h"
 #include "Character/LyraPawnData.h"
 #include "LyraPlayerState.h"
@@ -12,6 +13,7 @@
 #include "Components/LyraPawnExtensionComponent.h"
 #include "LyraExperienceDefinition.h"
 #include "System/LyraAssetManager.h"
+
 
 ALyraGameMode::ALyraGameMode(const FObjectInitializer& ObjectInitialize)
 	: Super(ObjectInitialize)
@@ -135,6 +137,23 @@ void ALyraGameMode::InitGameState()
 	ULyraExperienceManagerComponent* ExperienceComponent = GameState->FindComponentByClass<ULyraExperienceManagerComponent>();
 	check(ExperienceComponent);
 	ExperienceComponent->CallOrRegister_OnExperienceLoaded(FOnLyraExperienceLoaded::FDelegate::CreateUObject(this, &ThisClass::OnExperienceLoaded));
+}
+
+void ALyraGameMode::RequestPlayerRestartNextFrame(AController* Controller, bool bForceReset)
+{
+	if (bForceReset && (Controller != nullptr))
+	{
+		Controller->Reset();
+	}
+
+	if (APlayerController* PC = Cast<APlayerController>(Controller))
+	{
+		GetWorldTimerManager().SetTimerForNextTick(PC, &APlayerController::ServerRestartPlayer_Implementation);
+	}
+	else if (ALyraPlayerBotController* BotController = Cast<ALyraPlayerBotController>(Controller))
+	{
+		GetWorldTimerManager().SetTimerForNextTick(BotController, &ALyraPlayerBotController::ServerRestartController);
+	}
 }
 
 void ALyraGameMode::OnExperienceLoaded(const ULyraExperienceDefinition* CurrentExperience)

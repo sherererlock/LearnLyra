@@ -34,6 +34,11 @@ public:
 	virtual bool PlayerCanRestart_Implementation(APlayerController* Player) override;
 	virtual void InitGameState() override;
 
+	// Restart (respawn) the specified player or bot next frame
+	// - If bForceReset is true, the controller will be reset this frame (abandoning the currently possessed pawn, if any)
+	UFUNCTION(BlueprintCallable)
+	void RequestPlayerRestartNextFrame(AController* Controller, bool bForceReset = false);
+
 protected:
 	void OnExperienceLoaded(const ULyraExperienceDefinition* CurrentExperience);
 	bool IsExperienceLoaded() const;
