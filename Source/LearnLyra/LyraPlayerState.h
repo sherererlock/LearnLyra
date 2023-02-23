@@ -65,4 +65,7 @@ protected:
 
 	UPROPERTY(ReplicatedUsing = OnRep_PawnData)
 	const ULyraPawnData* PawnData;
+
+public:
+	static const FName NAME_LyraAbilityReady;
 };

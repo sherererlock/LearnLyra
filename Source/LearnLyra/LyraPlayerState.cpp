@@ -4,11 +4,14 @@
 #include "LyraPlayerState.h"
 #include "AbiltiyStstem/LyraAbilitySystemComponent.h"
 #include "GameMode/LyraExperienceManagerComponent.h"
+#include "Components/GameFrameworkComponentManager.h"
 #include "GameMode/LyraExperienceDefinition.h"
 #include "Character/LyraPawnData.h"
 #include "Net/UnrealNetwork.h"
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
 #include "AbilitySystem/Attribute/LyraHealthSet.h"
+
+const FName ALyraPlayerState::NAME_LyraAbilityReady("LyraAbilitiesReady");
 
 ALyraPlayerState::ALyraPlayerState(const FObjectInitializer& ObjectInitilize)
 	: Super(ObjectInitilize)
@@ -92,6 +95,10 @@ void ALyraPlayerState::SetPawnData(const ULyraPawnData* InPawnData)
 			AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr);
 		}
 	}
+
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, NAME_LyraAbilityReady);
+
+	ForceNetUpdate();
 }
 
 void ALyraPlayerState::CopyProperties(APlayerState* PlayerState)
