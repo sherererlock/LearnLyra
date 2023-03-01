@@ -8,7 +8,7 @@
 #include "GameplayEffectExtension.h"
 #include "GameplayPrediction.h"
 #include "Abilities/GameplayAbilityTypes.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "AbilitySystem/Attribute/LyraHealthSet.h"
 #include "NativeGameplayTags.h"
 #include "Components/GameFrameworkComponentManager.h"

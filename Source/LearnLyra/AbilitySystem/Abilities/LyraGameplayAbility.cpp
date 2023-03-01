@@ -7,7 +7,7 @@
 #include "NativeGameplayTags.h"
 #include "Components/LyraHeroComponent.h"
 #include "LyraAbilityCost.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_ABILITY_SIMPLE_FAILURE_MESSAGE, "Ability.UserFacingSimpleActivateFail.Message");
 UE_DEFINE_GAMEPLAY_TAG(TAG_ABILITY_PLAY_MONTAGE_FAILURE_MESSAGE, "Ability.PlayMontageOnActivateFail.Message");

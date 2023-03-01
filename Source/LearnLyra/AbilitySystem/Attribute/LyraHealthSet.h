@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Attribute/LyraAttributeSet.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "NativeGameplayTags.h"
 #include "LyraHealthSet.generated.h"
 
@@ -16,13 +16,13 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Lyra_Damage_Message);
 
 struct FGameplayEffectModCallbackData;
 /**
- * 
+ *
  */
 UCLASS(BlueprintType)
 class LEARNLYRA_API ULyraHealthSet : public ULyraAttributeSet
 {
 	GENERATED_BODY()
-	
+
 public:
 	ULyraHealthSet();
 

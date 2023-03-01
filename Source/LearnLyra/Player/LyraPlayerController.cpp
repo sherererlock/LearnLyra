@@ -2,8 +2,8 @@
 
 
 #include "Player/LyraPlayerController.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
-#include "LyraPlayerState.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "Player/LyraPlayerState.h"
 
 ALyraPlayerController::ALyraPlayerController(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer)

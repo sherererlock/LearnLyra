@@ -8,7 +8,7 @@
 #include "GameMode/LyraExperienceDefinition.h"
 #include "GameMode/LyraExperienceManagerComponent.h"
 //#include "Development/LyraDeveloperSettings.h"
-#include "LyraPlayerState.h"
+#include "Player/LyraPlayerState.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/LyraPawnExtensionComponent.h"
 #include "AIController.h"

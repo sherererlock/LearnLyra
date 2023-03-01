@@ -5,7 +5,7 @@
 #include "LyraGame/LyraGameplayTags.h"
 #include "Components/LyraHealthComponent.h"
 #include "GameplayTagsManager.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 
 ULyraGameplayAbility_Death::ULyraGameplayAbility_Death(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

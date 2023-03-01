@@ -11,7 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/LyraHealthComponent.h"
 #include "Camera/LyraCameraComponent.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 
 // TODO: Delete Those
 #include "Inventory/LyraInventoryItemDefinition.h"
@@ -23,7 +23,7 @@
 
 
 // Sets default values
-ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) : 
+ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) :
 	Super(ObjectInitializer)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -41,11 +41,11 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer) :
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
+	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	CameraComponent = CreateDefaultSubobject<ULyraCameraComponent>(TEXT("CameraComponent"));
-	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); 
+	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
 	PawnExtComponent = CreateDefaultSubobject<ULyraPawnExtensionComponent>(TEXT("PawnExtComponent"));
 	PawnExtComponent->OnAbilitySystemInitialize_RegisterAndCall(FSimpleMulticastDelegate::FDelegate::CreateUObject(this, &ThisClass::OnAbilitySystemInitialized));
@@ -79,7 +79,7 @@ void ALyraCharacter::OnAbilitySystemUninitialized()
 void ALyraCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 void ALyraCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)

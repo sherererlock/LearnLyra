@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AbilitySystem/Abilities/LyraAbilityCost_PlayerTagStack.h"
-#include "LyraPlayerState.h"
+#include "Player/LyraPlayerState.h"
 #include "LyraGameplayAbility.h"
 #include "GameFramework/PlayerController.h"
 
