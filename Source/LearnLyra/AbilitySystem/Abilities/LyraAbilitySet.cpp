@@ -2,7 +2,7 @@
 
 
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "LyraGameplayAbility.h"
 
 void FLyraAbilitySet_GrantedHandles::AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle)

@@ -8,8 +8,8 @@
 #include "Engine/AssetManager.h"
 #include "AbilitySystemComponent.h"
 #include "AttributeSet.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
-#include "LyraPlayerState.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "Player/LyraPlayerState.h"
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
 
 #define LOCTEXT_NAMESPACE "GameFeatures"

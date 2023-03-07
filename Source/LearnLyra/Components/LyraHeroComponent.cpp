@@ -11,7 +11,7 @@
 #include "LyraGame/LyraGameplayTags.h"
 #include "Input/LyraInputComponent.h"
 #include "Settings/LyraSettingsLocal.h"
-#include "LyraPlayerState.h"
+#include "Player/LyraPlayerState.h"
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "Camera/LyraCameraComponent.h"

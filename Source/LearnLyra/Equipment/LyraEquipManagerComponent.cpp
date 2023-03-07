@@ -2,7 +2,7 @@
 
 
 #include "Equipment/LyraEquipManagerComponent.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
 #include "LyraEquipmentInstance.h"
 #include "LyraEquipmentDefinition.h"
@@ -175,7 +175,7 @@ void ULyraEquipmentManagerComponent::UninitializeComponent()
 {
 	TArray<ULyraEquipmentInstance*> AllEquipmentInstances;
 
-	// gathering all instances before removal to avoid side effects affecting the equipment list iterator	
+	// gathering all instances before removal to avoid side effects affecting the equipment list iterator
 	for (const FLyraAppliedEquipmentEntry& Entry : EquipmentList.Entries)
 	{
 		AllEquipmentInstances.Add(Entry.Instance);

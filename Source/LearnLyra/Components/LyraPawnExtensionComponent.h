@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "LyraPawnComponent.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "LyraPawnExtensionComponent.generated.h"
 
 class ULyraPawnData;
 /**
- * 
+ *
  */
 UCLASS()
 class LEARNLYRA_API ULyraPawnExtensionComponent : public ULyraPawnComponent
 {
 	GENERATED_BODY()
-	
+
 public:
 
 	template <class T>
@@ -34,7 +34,7 @@ public:
 	// Should be called by the owning pawn when the input component is setup.
 	void SetupPlayerInputComponent();
 
-	// Call this anytime the pawn needs to check if it's ready to be initialized (pawn data assigned, possessed, etc..). 
+	// Call this anytime the pawn needs to check if it's ready to be initialized (pawn data assigned, possessed, etc..).
 	bool CheckPawnReadyToInitialize();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Lyra|Pawn", Meta = (ExpandBoolAsExecs = "ReturnValue"))

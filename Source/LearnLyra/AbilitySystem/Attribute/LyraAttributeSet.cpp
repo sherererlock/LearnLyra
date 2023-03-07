@@ -2,7 +2,7 @@
 
 
 #include "AbilitySystem/Attribute/LyraAttributeSet.h"
-#include "AbiltiyStstem/LyraAbilitySystemComponent.h"
+#include "AbilitySystem/LyraAbilitySystemComponent.h"
 
 ULyraAttributeSet::ULyraAttributeSet()
 {

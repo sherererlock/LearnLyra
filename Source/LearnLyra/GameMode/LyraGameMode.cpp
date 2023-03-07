@@ -7,7 +7,7 @@
 #include "GameMode/LyraPlayerBotController.h"
 #include "Character/LyraCharacter.h"
 #include "Character/LyraPawnData.h"
-#include "LyraPlayerState.h"
+#include "Player/LyraPlayerState.h"
 #include "LyraWorldSettings.h"
 #include "LyraExperienceManagerComponent.h"
 #include "Components/LyraPawnExtensionComponent.h"
