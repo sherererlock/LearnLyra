@@ -8,6 +8,8 @@
 #include "Components/LyraHeroComponent.h"
 #include "LyraAbilityCost.h"
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "Camera/LyraCameraMode.h"
+#include "Camera/LyraCameraComponent.h"
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_ABILITY_SIMPLE_FAILURE_MESSAGE, "Ability.UserFacingSimpleActivateFail.Message");
 UE_DEFINE_GAMEPLAY_TAG(TAG_ABILITY_PLAY_MONTAGE_FAILURE_MESSAGE, "Ability.PlayMontageOnActivateFail.Message");
@@ -170,4 +172,26 @@ void ULyraGameplayAbility::ApplyCost(const FGameplayAbilitySpecHandle Handle, co
 
 void ULyraGameplayAbility::NativeOnAbilityFailedToActivate(const FGameplayTagContainer& FailedReason) const
 {
+}
+
+void ULyraGameplayAbility::SetCameraMode(TSubclassOf<ULyraCameraMode> CameraMode)
+{
+	if (ULyraHeroComponent* HeroComponent = GetHeroComponentFromActorInfo())
+	{
+		HeroComponent->SetAbilityCameraMode(CameraMode, CurrentSpecHandle);
+		ActiveCameraMode = CameraMode;
+	}
+}
+
+void ULyraGameplayAbility::ClearCameraMode()
+{
+	if (ActiveCameraMode)
+	{
+		if (ULyraHeroComponent* HeroComponent = GetHeroComponentFromActorInfo())
+		{
+			HeroComponent->ClearAbilityCameraMode(CurrentSpecHandle);
+		}
+
+		ActiveCameraMode = nullptr;
+	}
 }

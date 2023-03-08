@@ -48,6 +48,7 @@ public:
 class ALyraCharacter;
 class ULyraHeroComponent;
 class ULyraAbilityCost;
+class ULyraCameraMode;
 /**
  * 
  */
@@ -82,8 +83,8 @@ public:
 		ScriptOnAbilityFailedToActivate(FailedReason);
 	}
 
-
 	virtual void OnPawnAvatarSet();
+
 protected:
 	//~UGameplayAbility interface
 
@@ -111,6 +112,10 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void ScriptOnAbilityFailedToActivate(const FGameplayTagContainer& FailedReason) const;
 
+	UFUNCTION(BlueprintCallable)
+	void SetCameraMode(TSubclassOf<ULyraCameraMode> CameraMode);
+	UFUNCTION(BlueprintCallable, Category = "Lyra|Ability")
+	void ClearCameraMode();
 protected:
 
 	// Defines how this ability is meant to activate.
@@ -121,8 +126,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Advanced")
 	TMap<FGameplayTag, UAnimMontage*> FailureTagToAnimMontage;
 
-
 	// Additional costs that must be paid to activate this ability
 	UPROPERTY(EditDefaultsOnly, Instanced, Category = Costs)
 	TArray<TObjectPtr<ULyraAbilityCost>> AdditionalCosts;
+
+	// Current camera mode set by the ability.
+	TSubclassOf<ULyraCameraMode> ActiveCameraMode;
 };

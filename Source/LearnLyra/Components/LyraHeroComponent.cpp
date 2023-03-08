@@ -15,6 +15,7 @@
 #include "AbilitySystem/Abilities/LyraAbilitySet.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "Camera/LyraCameraComponent.h"
+#include "Camera/LyraCameraMode.h"
 
 namespace LyraHero
 {
@@ -71,6 +72,24 @@ void ULyraHeroComponent::AddAdditionalInputConfig(const ULyraInputConfig* InputC
 
 void ULyraHeroComponent::RemoveAdditionalInputConfig(const ULyraInputConfig* InputConfig)
 {
+}
+
+void ULyraHeroComponent::SetAbilityCameraMode(TSubclassOf<ULyraCameraMode> CameraMode, const FGameplayAbilitySpecHandle& SpecHandle)
+{
+	if (CameraMode)
+	{
+		AbilityCameraMode = CameraMode;
+		OwningSpecHandle = SpecHandle;
+	}
+}
+
+void ULyraHeroComponent::ClearAbilityCameraMode(const FGameplayAbilitySpecHandle& SpecHandle)
+{
+	if (OwningSpecHandle == SpecHandle)
+	{
+		AbilityCameraMode = nullptr;
+		OwningSpecHandle = FGameplayAbilitySpecHandle();
+	}
 }
 
 void ULyraHeroComponent::OnRegister()

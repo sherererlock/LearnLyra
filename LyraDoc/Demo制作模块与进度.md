@@ -8,14 +8,29 @@
 
   - [ ] GA
     - [x] GA_Hero_Dash
+    
+      - [ ] UI
+      - [ ] GC
+    
+      - Rotation From X方法返回向量与世界Forward(1,0,0)的旋转
+      - Delta方法返回向量之间的夹角，顺序有关。
+    
     - [x] GA_Emote
+    
     - [ ] GA_ADS
+    
     - [x] GA_WeaponFire
+    
     - [x] GA_Reload
+    
     - [ ] GA_AutoLoad
+    
     - [ ] GA_InterAction
+    
     - [x] GA_HeroDeath
+    
     - [x] GA_Jump
+    
   - [ ] GE
     - [ ] GE_BlockAbilityInput
     - [ ] GE_HeroDash_Cooldown
@@ -23,6 +38,7 @@
     - [ ] GE_Heal
     - [ ] GE_Dmage
     - [ ] 
+    
   - [ ] GC
 
 - [ ] UI
@@ -52,6 +68,6 @@
 
 - [ ] 队伍系统
 
-- [ ] 消息系统
+- [ ] Message系统
 
   

@@ -1,0 +1,54 @@
+
+
+UCharacterMovementComponent：TickComponent。以下涉及自主代理在本地执行移动，并将NewMove发给ds，ds模拟client的 移动，接着校验、写入对client的纠正。
+    UPawnMovementComponent:ConsumelnputVector
+    	APawn:lnternalConsumeMovementlnputVector
+    	这个函数返回之前通过APawn:AddMovementlnput添加的inputvector
+    接着检查HasValidData，不合法则结束运行此函数
+    UCharacterMovementComponentHasValidData()
+    	判断UpdatedComponent!=nullptr和lsValidCharacterOwner()是否合法
+   接着判断此帧是否应该跳过
+   UMovementComponent:ShouldskipUpdate
+       Updatedcomponent不是movable的话，则跳过·编辑器下会打印提示。
+       如果UMovementComponent:bUpdateOnlylfRendered是true的话：
+         如果是dsserver的话，则跳过·因为dsserver从不染
+    	 检查UMovementComponent:UpdatedPrimitive（Updatedcomponentcast过来的，可能是个非法值）近期是否被染过（通过lastrendertime和constThreshold来判断是否近期被染过·没被染过则此跳过
+         检查Updatedcomponent的所有子组件中的所有UPrimitiveComponent是否近期被染过·有被染的则此不应跳过
+    接着调用super(pawnmovementcomponent没有overridetickcomponent函数)，因此调用到以下函数
+    UMovementComponent:TickComponent
+      首先调用父类UActorComponent:Tickcomponent的方法
+     如果Updatedcomponent非法（通过是否Updatedcomponent的lsPendingkill来判断）的话，则将其置空
+     再次调用UCharacterMovementComponent：HasValidData来判断是否应该结束运行此函数·因为上面的那一句调用super的函数可能会将Updatedcomponent置空
+     如果在dsserver上检查到CharacterOOwner的AActorCheckStillnWorld返回false的话，则如果【UpdatedComponent没有模拟物理（blssimulatingPhysics）】或角色移动组件没有cheatflying（bCheatFlying）的话，就跳过运行此函数
+AActorCheckStilllnWorld检查角色是否仍在world中
+sPendingKill的话，则返回false
+GetWorld返回空指针则返回false
+比actor不是ROLEAuthority的话，则返回true·纯client上·因为actor只会在authroity上被销毁，纯client对这个actor是否
+stillinworld中没控制权，索性直接返回true，免得因此destory非clientauthority的actor
+通过world得到Worldsettings，检查其是否设置要检查world边界（bEnableWorldBoundsChecks）·如果其设置无需检查的话，这里就直接返回true
+检查actor的位置是否小于worldsettings上配置的KiZ
+检查actor的xy、三个值是否在硬编码的合法范围内，范围是[-HALFWORLD_MAX，HALF_WORLD_MAX]·HALFWORLD_MAX是WORLDMAX2097152.0.209w多）的1/2，大概104w多一点（1.048576）
+如果没有在这个硬编码的合法范围内，则调用一下函数：
+AActorOutsideWorldBounds
+里面只有一句，调用AActor：Destroy
+SetActorEnableCollision(false）
+会设置AActorbActorEnableCollision的值，如果和之前不一样的话，则对每个UActorComponent调用
+OnActorEnableCollisionChanged0方法，这是一个virtual方法，UActorComponent没有实现这个方法
+AActorDisableComponentsSimulatePhysics
+对这个actor的所有UPrimitiveComponent设置不模拟物理（SetsimulatePhysics(false））
+如果Updatedcomponent在模拟物理的话（USceneComponent：sSimulatingPhysics），
+如果所属character是client上的自主代理的话，则调用UPawnMovementComponent:MarkForClientCameraUpdate
+这个函数将根据条件（APlayerCameraManagerbUseClientsideCameraUpdates是true）来修改pawn的playercontroler的
+playercameramanager的bShouldSendclientsideCameraUpdate为true·UWorld:Tick时调用
+APlayerController：UpdateCameraManager，接着调用APlayerCameraManager：UpdateCamera，在这个函数里面会用到
+bShouldSendClientsideCameraUpdate和来判断这一是否发送unreliable的serverrpc来设置dsserver上的摄像头的位置和旋转（不是playercameramanager的位置和旋转）
+                                                         些补充：
+其他一些地方，比如plyercontroleractivate和playercameramanger初始化时也会调用到APlayerCameraManager：UpdateCameraAPlayerCameraManagerUpdateCamera也会调用APlayerCameraManagerDoUpdateCamera，这个函数会根据当前
+viewtargetactor看代码按理说其实应该是cameraactor时才是预想的逻辑，不过ue代码也兼容了不少cameraactor的情况）来设置之后发送的摄像头的位置、旋转。
+APlayerCameraManagerUpdateCamera是clietn和dsserver都跑到的
+调用UCharacterMovementComponent:ClearAccumulatedForces
+这个函数将PendinglmpulseToApply、PendingForceToApply、PendingLaunchVelocity这三个变量设置为0向量·改变这几个变量的函数分别是：UCharacterMovementComponentAddlmpulseUCharacterMovementComponent::AddForce
+UCharacterMovementcomponent:Launch，其他其他改变这三个变量的函数都是将其设置为0
+接着UCharacterMovementComponent:TickComponent返回
+AvoidanceockTimer seaime   tod 暂时不明白此行意
+}

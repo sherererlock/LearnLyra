@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "LyraPawnComponent.h"
 #include "Input/LyraMappableConfigPair.h"
-
+#include "GameplayAbilitySpec.h"
 #include "LyraHeroComponent.generated.h"
 
 class UInputComponent;
@@ -32,6 +32,9 @@ public:
 
 	void AddAdditionalInputConfig(const ULyraInputConfig* InputConfig);
 	void RemoveAdditionalInputConfig(const ULyraInputConfig* InputConfig);
+
+	void SetAbilityCameraMode(TSubclassOf<ULyraCameraMode> CameraMode, const FGameplayAbilitySpecHandle& AbilityCameraModeOwningSpecHandle);
+	void ClearAbilityCameraMode(const FGameplayAbilitySpecHandle& AbilityCameraModeOwningSpecHandle);
 
 protected:
 	virtual void OnRegister() override;
@@ -66,6 +69,9 @@ protected:
 
 	// True when player input bindings have been applyed, will never be true for non-players
 	bool bReadyToBindInputs;
+
+	TSubclassOf<ULyraCameraMode> AbilityCameraMode;
+	FGameplayAbilitySpecHandle OwningSpecHandle;
 
 public:
 	static const FName NAME_BindInputsNow;
