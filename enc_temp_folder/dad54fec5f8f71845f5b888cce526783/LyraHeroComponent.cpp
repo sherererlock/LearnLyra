@@ -376,9 +376,6 @@ void ULyraHeroComponent::Input_AutoRun(const FInputActionValue& InputActionValue
 
 TSubclassOf<ULyraCameraMode> ULyraHeroComponent::DetermineCameraMode()
 {
-	if (AbilityCameraMode)
-		return AbilityCameraMode;
-
 	const APawn* Pawn = GetPawn<APawn>();
 	if (!Pawn)
 	{

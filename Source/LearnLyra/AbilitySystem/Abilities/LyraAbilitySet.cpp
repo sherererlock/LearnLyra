@@ -89,9 +89,13 @@ void ULyraAbilitySet::GiveToAbilitySystem(ULyraAbilitySystemComponent* ASC, FLyr
 		ASPec.SourceObject = SourceObject;
 		ASPec.DynamicAbilityTags.AddTag(Ability.InputTag);
 
+		
+
 		const FGameplayAbilitySpecHandle ASHandle = ASC->GiveAbility(ASPec);
 		if(OutGrantedHandles)
 			OutGrantedHandles->AddAbilitySpecHandle(ASHandle);
+
+		UE_LOG(LogTemp, Warning, TEXT("GivaAbility %s "), *AbilityCDO->AbilityTags.ToString())
 	}
 
 	for (int32 i = 0; i < GrantedGameplayEffects.Num(); i++)
