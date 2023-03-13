@@ -17,7 +17,7 @@
     
     - [x] GA_Emote
     
-    - [ ] GA_ADS
+    - [x] GA_ADS
     
     - [x] GA_WeaponFire
     
