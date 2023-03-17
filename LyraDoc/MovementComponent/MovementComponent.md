@@ -441,3 +441,67 @@ void UCharacterMovementComponent::TickComponent(float DeltaTime, enum ELevelTick
 }
 ```
 
+------
+
+对移动平台的的处理
+
+```mermaid
+classDiagram
+class FBasedMovementInfo{
+	TObjectPtr<UPrimitiveComponent> MovementBase = nullptr;
+	FName BoneName;
+	FVector_NetQuantize100 Location;
+	FRotator Rotation = FRotator(0.f);
+	bool bServerHasBaseComponent = false;
+	bool bRelativeRotation = false;
+	bool bServerHasVelocity = false;
+	bool HasRelativeLocation()
+	bool HasRelativeRotation()
+	bool IsBaseUnresolved()
+}
+
+class Character{
+	struct FBasedMovementInfo BasedMovement;
+	struct FBasedMovementInfo ReplicatedBasedMovement;
+}
+
+Character *-- FBasedMovementInfo
+```
+
+```c++
+void UCharacterMovementComponent::PerformMovement(float DeltaSeconds)
+{
+    // 检查以及根运动处理
+    
+    void UCharacterMovementComponent::MaybeUpdateBasedMovement(float DeltaSeconds)
+    {
+        // 如果角色所站的地面是移动的
+        void UCharacterMovementComponent::UpdateBasedMovement(float DeltaSeconds)
+        {
+            // 获取移动base的最新位置和旋转
+            
+            // 与上一帧旋转进行比较，得出DeltaQuat
+            
+            //如果Base有旋转或位置上的改变
+            //构建新旧两种Transform
+            //将角色也旋转DeltaQuat
+            
+            //移动和旋转组件
+            MoveUpdatedComponent(DeltaPosition, FinalQuat, true, &MoveOnBaseHit);
+        }
+    }
+    
+    // 移动逻辑,可能会找到新的Base
+    
+    MaybeSaveBaseLocation();
+    {
+        SaveBaseLocation();
+        {
+			// 更新OldBaseLocation、OldBaseQuat
+             // 记录与base的位置差，旋转差
+        }
+    }
+
+}
+```
+
