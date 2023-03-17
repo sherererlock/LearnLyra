@@ -101,3 +101,28 @@ UAsyncAction_ListenForGameplayMessage *-- FGameplayMessageListenerHandle
 
 ```
 
+------
+
+## Subsystem
+
+```mermaid
+classDiagram
+class FSubsystemCollectionBase{
+	TMap~UClass*, USubsystem*~ SubsystemMap;
+	UClass* BaseType;
+	UObject* Outer;
+	
+	+ void Initialize(UObject* NewOuter);
+	+ void Deinitialize();
+	+ virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
+	+ const UClass* GetBaseType() const
+}
+
+template~typename TBaseType~
+class FSubsystemCollection{
+	+ TSubsystemClass* GetSubsystem(const TSubclassOf<TSubsystemClass>& SubsystemClass) const;
+}
+
+FSubsystemCollectionBase <|-- FSubsystemCollection
+```
+
